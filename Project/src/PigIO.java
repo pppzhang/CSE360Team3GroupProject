@@ -1,5 +1,7 @@
 public interface PigIO {
 	
+	public static final int PORT = 9898;
+	
 	public static final String PING = "ping";
 	public static final String PLAYER_JOINED = "joined";
 	public static final String PLAYER_LEFT = "left";

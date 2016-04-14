@@ -59,7 +59,7 @@ public class PigServer implements PigIO {
 		public void run() {
 			running = true;
 			try {
-				server = new ServerSocket(9898);
+				server = new ServerSocket(PORT);
 				server.setSoTimeout(10000);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -101,7 +101,7 @@ public class PigServer implements PigIO {
 					//TODO update new player of existing players
 					this.socket.setSoTimeout(0);
 					while (true) {
-						parse((PigMsg)input.readObject());
+						serverParse((PigMsg)input.readObject());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
