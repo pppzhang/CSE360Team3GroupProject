@@ -1,7 +1,7 @@
 
 /**
  * 
- * @author 
+ * @author  
  *
  */
 public class PigGUI {
