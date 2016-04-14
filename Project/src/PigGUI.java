@@ -1,7 +1,7 @@
 
 /**
  * 
- * @author Philllip Reyes 
+ * @author 
  *
  */
 public class PigGUI {
