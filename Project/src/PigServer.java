@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -17,13 +18,18 @@ public class PigServer implements PigIO {
 	private Lobby lobby;
 	private PigEngine engine;
 
-	public PigServer(PigGUI gui) {
+	public PigServer(PigGUI gui, PigStats stats) {
 		this.gui = gui;
 		lobby = new Lobby();
 		lobby.start();
 		clients = new ArrayList<Player>();
+		clients.add(new Player(stats));
 	}
 
+	/*
+	 * CLASSES ACCESSED BY GUI
+	 */
+	
 	@Override
 	public void exit() {
 		for (Player p : clients) {
@@ -35,8 +41,17 @@ public class PigServer implements PigIO {
 	public void startGame() {
 		lobby.running = false;
 		engine = new PigEngine(this, clients.size() + 1);
-		PigEngine.start();
+		engine.start();
 	}
+	
+	@Override
+	public PigStats getStats(int playerID) {
+		return clients.get(playerID).stats;
+	}
+	
+	/*
+	 * UTILITY CLASSES
+	 */
 
 	private class Lobby extends Thread {
 		public boolean running;
@@ -52,6 +67,7 @@ public class PigServer implements PigIO {
 			while (running) {
 				try {
 					(new Player(server.accept())).start();
+					//TODO update existing players of new player
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -64,34 +80,40 @@ public class PigServer implements PigIO {
 		private Socket socket;
 		private ObjectInputStream input;
 		private ObjectOutputStream output;
-		private String[] stats;
+		protected PigStats stats;
 
 		public Player(Socket socket) throws SocketException {
 			this.socket = socket;
 			this.socket.setSoTimeout(30000);
 		}
 		
+		public Player(PigStats stats) {
+			socket = null;
+			this.stats = stats;
+		}
+		
 		public void run() {
 				try {
 					input = new ObjectInputStream(socket.getInputStream());
 					output = new ObjectOutputStream(socket.getOutputStream());
-					//TODO collect stats
+					stats = (PigStats)input.readObject();
 					clients.add(this);
+					//TODO update new player of existing players
 					this.socket.setSoTimeout(0);
 					while (true) {
-						parse()
+						parse((PigMsg)input.readObject());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
 		
-		public void send(String[] str) {
-			//TODO printing to client
-		}
-		
-		public void read() {
-			//TODO reading from client
+		public void send(PigMsg msg) {
+			try {
+				output.writeObject(msg);
+			} catch (IOException e) {
+				//TODO disconnect notification if we want it
+			}
 		}
 		
 		public void close() {
@@ -103,14 +125,49 @@ public class PigServer implements PigIO {
 			}
 		}
 	}
-
-	@Override
-	public String[] getStats(int playerID) {
-		return clients.get(playerID).stats;
+	
+	private class PigMsg implements Serializable {
+		private static final long serialVersionUID = -7084128846562180341L;
+		public String command;
+		public int[] args;
+		
+		public PigMsg(String command, int[] args) {
+			this.command = command;
+			this.args = args;
+		}
 	}
 	
 	/*
-	 * The following commands will be accessed by the Engine.
+	 * UTILITY METHODS
+	 */
+	
+	private void serverParse(PigMsg msg) {
+		switch (msg.command) {
+		case GET_STATS:
+			getStats(msg.args[0]);
+			break;
+		case ROLL_AGAIN:
+			//TODO
+			break;
+		case PLAYER_LEFT:
+			clients.remove(msg.args[0]);
+			sendAll(msg);
+		}
+	}
+	
+	private void clientParse(PigMsg msg) {
+		//TODO
+	}
+	
+	private void sendAll(PigMsg msg) {
+		clientParse(msg);
+		for (int i = 1; i < clients.size(); i++) {
+			clients.get(i).send(msg);
+		}
+	}
+	
+	/*
+	 * COMMANDS ACCESSED BY ENGINE
 	 */
 	
 	public void setTurn(int playerID) {
@@ -121,7 +178,7 @@ public class PigServer implements PigIO {
 		//TODO engine action
 	}
 	
-	public boolean roll(int playerID, int previousValue, int newValue) {
+	public void roll(int playerID, int previousValue, int newValue) {
 		//TODO engine action
 	}
 	
