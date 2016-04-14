@@ -8,14 +8,14 @@ public class PigGUI {
 	
 	String[] stats;
 	/**
-	 * 
+	 * k
 	 */
 	public PigGUI() {
 		//TODO Peng - load stats
 		//TODO start GUI
 	}
 	/**
-	 * @param playerIDs
+	 * @param playerIDs b
 	 */
 	public void setOrder(int [] playerIDs){
 		
