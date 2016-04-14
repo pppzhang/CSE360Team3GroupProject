@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -59,8 +61,8 @@ public class PigServer implements PigIO {
 	private class Player extends Thread {
 
 		private Socket socket;
-		private BufferedReader input;
-		private PrintWriter output;
+		private ObjectInputStream input;
+		private ObjectOutputStream output;
 		private String[] stats;
 
 		public Player(Socket socket) throws SocketException {
@@ -70,11 +72,14 @@ public class PigServer implements PigIO {
 		
 		public void run() {
 				try {
-					input = new BufferedReader(
-							new InputStreamReader(socket.getInputStream()));
-					output = new PrintWriter(socket.getOutputStream(), true);
+					input = new ObjectInputStream(socket.getInputStream());
+					output = new ObjectOutputStream(socket.getOutputStream());
 					//TODO collect stats
 					clients.add(this);
+					this.socket.setSoTimeout(0);
+					while (true) {
+						parse()
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -89,12 +94,11 @@ public class PigServer implements PigIO {
 		}
 		
 		public void close() {
-			output.close();
 			try {
+				output.close();
 				input.close();
 				socket.close();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}

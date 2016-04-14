@@ -8,7 +8,7 @@ public class PigGUI {
 	}
 	
 	public PigGUI() {
-		//TODO Peng - load stats as String[]
+		//TODO Peng - load stats
 		//TODO start GUI
 	}
 
