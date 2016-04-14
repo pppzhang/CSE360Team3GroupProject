@@ -35,6 +35,7 @@ public class PigServer implements PigIO {
 	public void startGame() {
 		lobby.running = false;
 		engine = new PigEngine(this, clients.size() + 1);
+		PigEngine.start();
 	}
 
 	private class Lobby extends Thread {
