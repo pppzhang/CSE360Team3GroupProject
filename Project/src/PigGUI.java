@@ -36,9 +36,9 @@ public class PigGUI {
 	}
 	/**
 	 * 
-	 * @param name
+	 * @param stats
 	 */
-	public void join(String name){
+	public void join(PigStats stats){
 		
 	}
 	/**
@@ -68,6 +68,16 @@ public class PigGUI {
 	 */
 	public static void main(String[] args) {
 		PigGUI application = new PigGUI();
+	}
+	
+	public void giveStats(PigStats stats) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void disconnect() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

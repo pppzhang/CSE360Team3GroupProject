@@ -66,25 +66,33 @@ public class PigServer implements PigIO {
 			}
 			while (running) {
 				try {
-					(new Player(server.accept())).start();
+					Player p = new Player(server.accept());
+					clients.add(p);
+					p.start();
 					//TODO update existing players of new player
 				} catch (Exception e) {
-					e.printStackTrace();
 				}
+			}
+			try {
+				server.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
 	private class Player extends Thread {
 
+		private boolean running;
 		private Socket socket;
 		private ObjectInputStream input;
 		private ObjectOutputStream output;
 		protected PigStats stats;
 
 		public Player(Socket socket) throws SocketException {
+			running = true;
 			this.socket = socket;
-			this.socket.setSoTimeout(30000);
+			this.start();
 		}
 		
 		public Player(PigStats stats) {
@@ -96,15 +104,14 @@ public class PigServer implements PigIO {
 				try {
 					input = new ObjectInputStream(socket.getInputStream());
 					output = new ObjectOutputStream(socket.getOutputStream());
-					stats = (PigStats)input.readObject();
-					clients.add(this);
+					stats = (PigStats) input.readObject();
 					//TODO update new player of existing players
 					this.socket.setSoTimeout(0);
-					while (true) {
-						serverParse((PigMsg)input.readObject());
+					while (running) {
+						serverParse((PigMsg) input.readObject(), clients.indexOf(this));
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					if (running) serverParse(new PigMsg(PLAYER_LEFT, 0), clients.indexOf(this));
 				}
 		}
 		
@@ -112,28 +119,24 @@ public class PigServer implements PigIO {
 			try {
 				output.writeObject(msg);
 			} catch (IOException e) {
-				//TODO disconnect notification if we want it
+				serverParse(new PigMsg(PLAYER_LEFT, 0), clients.indexOf(this));
 			}
 		}
 		
 		public void close() {
+			running = false;
 			try {
 				output.close();
+			} catch (IOException e) {
+			}
+			try {
 				input.close();
+			} catch (IOException e) {
+			}
+			try {
 				socket.close();
 			} catch (IOException e) {
 			}
-		}
-	}
-	
-	private class PigMsg implements Serializable {
-		private static final long serialVersionUID = -7084128846562180341L;
-		public String command;
-		public int[] args;
-		
-		public PigMsg(String command, int[] args) {
-			this.command = command;
-			this.args = args;
 		}
 	}
 	
@@ -141,16 +144,15 @@ public class PigServer implements PigIO {
 	 * UTILITY METHODS
 	 */
 	
-	private void serverParse(PigMsg msg) {
+	private void serverParse(PigMsg msg, int playerID) {
 		switch (msg.command) {
-		case GET_STATS:
-			getStats(msg.args[0]);
-			break;
 		case ROLL_AGAIN:
 			//TODO
 			break;
 		case PLAYER_LEFT:
-			clients.remove(msg.args[0]);
+			clients.get(playerID).close();
+			clients.remove(playerID);
+			msg.args[0] = playerID;
 			sendAll(msg);
 		}
 	}
