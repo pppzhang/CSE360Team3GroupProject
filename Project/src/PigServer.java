@@ -22,6 +22,10 @@ public class PigServer implements PigIO {
 	private Lobby lobby;
 	private PigEngine engine;
 
+	/**
+	 * @param gui The associated GUI
+	 * @param stats The host's stats.
+	 */
 	public PigServer(PigGUI gui, PigStats stats) {
 		this.gui = gui;
 		lobby = new Lobby();
@@ -34,6 +38,9 @@ public class PigServer implements PigIO {
 	 * CLASSES ACCESSED BY GUI
 	 */
 	
+	/* (non-Javadoc)
+	 * @see PigIO#exit()
+	 */
 	@Override
 	public void exit() {
 		for (Player p : clients) {
@@ -42,8 +49,12 @@ public class PigServer implements PigIO {
 		clients.removeAll(clients);
 	}
 
+	/**
+	 * Called by the host GUI to end the lobby and start the game.
+	 */
 	public void startGame() {
 		lobby.running = false;
+		lobby.interrupt();
 		engine = new PigEngine(this, clients.size());
 		//engine.start();
 	}
@@ -52,6 +63,10 @@ public class PigServer implements PigIO {
 	 * UTILITY CLASSES
 	 */
 
+	/**
+	 * @author Nathan Sears
+	 * Creates Players as people connect.
+	 */
 	private class Lobby extends Thread {
 		public boolean running;
 		ServerSocket server;
@@ -67,7 +82,6 @@ public class PigServer implements PigIO {
 			while (running) {
 				try {
 					Player p = new Player(server.accept());
-					p.start();
 					sendAll(new PigMsg(PLAYER_JOINED, p.stats));
 				} catch (Exception e) {
 				}
@@ -80,6 +94,10 @@ public class PigServer implements PigIO {
 		}
 	}
 
+	/**
+	 * @author Nathan Sears
+	 * Handles communication to and from a single player.
+	 */
 	private class Player extends Thread {
 
 		private boolean running;
@@ -88,18 +106,15 @@ public class PigServer implements PigIO {
 		private ObjectOutputStream output;
 		protected PigStats stats;
 
-		public Player(Socket socket) throws SocketException {
+		public Player(Socket socket) throws IOException, ClassNotFoundException {
 			this.socket = socket;
-			try {
-				input = new ObjectInputStream(socket.getInputStream());
-				output = new ObjectOutputStream(socket.getOutputStream());
-				stats = (PigStats) input.readObject();
-				for (int i = 0; i < clients.size(); i++) {
-					output.writeObject(new PigMsg(PLAYER_JOINED, clients.get(i).stats));
-				}
-				clients.add(this);
-			} catch (Exception e) {
+			input = new ObjectInputStream(socket.getInputStream());
+			output = new ObjectOutputStream(socket.getOutputStream());
+			stats = (PigStats) input.readObject();
+			for (int i = 0; i < clients.size(); i++) {
+				output.writeObject(new PigMsg(PLAYER_JOINED, clients.get(i).stats));
 			}
+			clients.add(this);
 			this.start();
 		}
 		
@@ -119,17 +134,25 @@ public class PigServer implements PigIO {
 				}
 		}
 		
+		/**
+		 * Attempts to send a message to the player. If fails, notifies the Server.
+		 * @param msg Message to be sent to the player.
+		 * @return true if success, false if fail
+		 */
 		public boolean send(PigMsg msg) {
+			//disconnected player
 			if (!running) {
 				if (msg.command.equals(SELF_ROLL)) {
 					serverParse(new PigMsg(ROLL_AGAIN, 1), clients.indexOf(this));
 				}
 				return true;
 			}
+			//host player
 			if (socket == null) {
 				clientParse(msg);
 				return true;
 			}
+			//connected player
 			try {
 				output.writeObject(msg);
 				return true;
@@ -139,6 +162,9 @@ public class PigServer implements PigIO {
 			}
 		}
 		
+		/**
+		 * Shuts the player communications down, disconnects.
+		 */
 		public void close() {
 			running = false;
 			try {
@@ -160,6 +186,10 @@ public class PigServer implements PigIO {
 	 * UTILITY METHODS
 	 */
 	
+	/**
+	 * @param msg The message sent to the server from a player.
+	 * @param playerID The player who sent the message.
+	 */
 	private void serverParse(PigMsg msg, int playerID) {
 		switch (msg.command) {
 		case ROLL_AGAIN:
@@ -173,7 +203,10 @@ public class PigServer implements PigIO {
 		}
 	}
 	
-	//if you change this, change PigClient.parse() as well
+	/*
+	 * Takes a message from the server to send to the host player.
+	 * If you change this, change PigClient.parse() as well.
+	 */
 	private void clientParse(PigMsg msg) {
 		switch (msg.command) {
 		case PLAYER_JOINED:
@@ -191,6 +224,9 @@ public class PigServer implements PigIO {
 		}
 	}
 	
+	/*
+	 * Sends a message to all players.
+	 */
 	private void sendAll(PigMsg msg) {
 		for (int i = 0; i < clients.size(); i++) {
 			if (!clients.get(i).send(msg))
@@ -202,18 +238,32 @@ public class PigServer implements PigIO {
 	 * COMMANDS ACCESSED BY ENGINE
 	 */
 	
+	/**
+	 * @param playerID
+	 */
 	public void setTurn(int playerID) {
 		//TODO engine action
 	}
 	
+	/**
+	 * @param playerIDs
+	 */
 	public void setOrder(int[] playerIDs) {
 		//TODO engine action
 	}
 	
+	/**
+	 * @param playerID
+	 * @param previousValue
+	 * @param newValue
+	 */
 	public void roll(int playerID, int previousValue, int newValue) {
 		//TODO engine action
 	}
 	
+	/**
+	 * @param lastValues
+	 */
 	public void reveal(int[] lastValues) {
 		//TODO engine action
 	}

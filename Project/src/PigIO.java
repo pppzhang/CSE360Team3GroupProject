@@ -1,5 +1,9 @@
 import java.io.Serializable;
 
+/**
+ * @author Nathan
+ *
+ */
 public interface PigIO {
 	
 	public static final int PORT = 9898;
@@ -14,8 +18,15 @@ public interface PigIO {
 	public static final String REVEAL = "reveal";
 	public static final String ROLL_AGAIN = "roll?";
 	
+	/**
+	 * Called by a GUI to signal that the player wishes to leave.
+	 */
 	public void exit();
 	
+	/**
+	 * @author Nathan
+	 * An object meant for sharing between a PigClient and PigServer.
+	 */
 	public class PigMsg implements Serializable {
 		private static final long serialVersionUID = -7084128846562180341L;
 		public String command;

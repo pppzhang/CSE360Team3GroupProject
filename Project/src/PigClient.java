@@ -53,7 +53,10 @@ public class PigClient extends Thread implements PigIO {
 		}
 	}
 	
-	//if you change this, change PigServer.clientParse() as well.
+	/*
+	 * Takes a message and calls the requested actions.
+	 * if you change this, change PigServer.clientParse() as well.
+	 */
 	private void parse(PigMsg msg) {
 		switch (msg.command) {
 		case PLAYER_JOINED:
@@ -71,6 +74,9 @@ public class PigClient extends Thread implements PigIO {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see PigIO#exit()
+	 */
 	@Override
 	public void exit() {
 		try {
