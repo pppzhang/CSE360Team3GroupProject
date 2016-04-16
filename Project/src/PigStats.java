@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 
 public class PigStats {
-	private String username;
+	public String username;
 	private int score;
 	private ArrayList<Integer> rollNumber;
 	

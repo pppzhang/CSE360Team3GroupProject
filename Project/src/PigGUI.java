@@ -18,32 +18,163 @@ import javax.swing.SwingUtilities;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 import java.net.URL;
 public class PigGUI extends JFrame {
 	
 	//String[] stats;
+	ArrayList<JButton> list;
+	JButton Host;
+	JButton Join;
+	JButton Stats;
+	JButton Rules;
+	JLabel imagelabel;
+	JPanel panel;
+	JPanel panel2;
+	JButton namePlates;
+	JButton startButton;
+	JButton leave;
+	PigIO IO;
+	PigGUI gui;
+	PigStats stats= new PigStats("UserName");
 	/**
 	 * k
 	 */
 	public PigGUI() {
 		//TODO Peng - load stats
 		//TODO start GUI
-		// Appears on the top bar
-		setTitle("Simple example");
+		//imagelabel= new JLabel ();
+		gui = this;
+		list = new ArrayList<JButton>();
+		mainn();
+		
+		
+			
+		
+	}
+
+	private void mainn(){
+		panel= new JPanel();
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		//panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		// pears on the top bar
+		setTitle("Pass the Pig");
 		// Size of the window to be rendered
-		setSize(300, 200);
+		setSize(750, 500);
+		setLocation(200,200);
 		// this centers the window
 		setLocationRelativeTo(null);
 		// ends the program when we close the window
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//PigClient.getPigClient(gui, stats)
+		boolean stop = false;
+		Rules = new JButton("Rules");
+		Rules.setBounds(50, 150, 100, 30);
+		Rules.setToolTipText("Rules of the Game");
+		Rules.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+					System.exit(0);
+				
+				}
+			});
+		Host = new JButton("Host");
+		Host.setBounds(250, 400, 100, 30);
+		Host.setToolTipText("Host Game");
+		Host.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+					//System.exit(0);
+				   IO = new PigServer(gui,stats);
+				   
+				   //(PigServer) io).startGame()
+			}
+			});
+		
+		Join = new JButton("Join");
+		Join.setBounds(350, 400, 100, 30);
+		Join.setToolTipText("Join Game");
+		Join.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//IO=PigClient.getPigClient(gui, stats);	
+				
+				if(IO!=null){
+					lobby();
+				}
+				lobby();
+				join(stats);
+				//System.exit(0);
+				
+				
+				}
+			});
+		Stats = new JButton("Stats");
+		Stats.setBounds(50, 250, 100, 30);
+		Stats.setToolTipText("See Stats of other players");
+		Stats.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+					System.exit(0);
+				
+				}
+			});
+		
+		panel.add(Host);
+		panel.add(Join);
+		panel.add(Stats);
+		panel.add(Rules);
 	}
 	
+	private void lobby(){
+
+
+		panel.removeAll();
+		getContentPane().removeAll();		
+				
+				namePlates = new JButton("Name PLates");
+				namePlates.setBounds(50,50, 100, 30);
+				namePlates.setToolTipText("Rules of the Game");
+				namePlates.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+							//System.exit(0);
+							
+						}
+					});
+				startButton = new JButton("Start Button");
+				startButton.setBounds(250, 400, 100, 30);
+				startButton.setToolTipText("Host Game");
+				startButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+							
+						   IO = new PigServer(gui,pStats);
+						   System.exit(0);
+						   //(PigServer) io).startGame()
+					}
+					});
+				
+				leave = new JButton("Leave");
+				leave.setBounds(350, 400, 100, 30);
+				leave.setToolTipText("Join Game");
+				leave.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+							//System.exit(0);
+							leave(0);
+						}
+					});
+							
+				panel.add(namePlates);
+				panel.add(startButton);
+				panel.add(leave);
+				getContentPane().add(panel);
+				panel.revalidate();
+				validate();
+				repaint();
+				
+	}
 	/**
 	 * @param playerIDs b
 	 */
+	
 	public void setOrder(int [] playerIDs){
 		
 	}
@@ -65,15 +196,39 @@ public class PigGUI extends JFrame {
 	 * 
 	 * @param stats
 	 */
-/*	public void join(PigStats stats){
+	public void join(PigStats stats){
+		//listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
 		
-	}*/
+		JButton nameButton= new JButton(stats.username);
+		nameButton.setBounds(350, 350, 100, 40);
+		nameButton.setToolTipText("Get Player Stats");
+		nameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				//TODO disply stats
+				
+			   //(PigServer) io).startGame()
+			}
+			});
+		list.add(nameButton);
+		//panel2.add(nameButton);
+		panel.add(nameButton);
+		getContentPane().add(panel);
+		panel.revalidate();
+		validate();
+		repaint();
+		
+		
+	}
 	/**
 	 * 
 	 * @param playerID
 	 */
-	public void  leave(int playerID){
-		
+	public void leave(int playerID){
+		panel.remove(list.get(playerID));
+		list.remove(playerID);
+		panel.revalidate();
+		validate();
+		repaint();
 	}
 	/**
 	 * 
@@ -103,5 +258,8 @@ public class PigGUI extends JFrame {
 			ex.setVisible(true);
 			}
 		});
-}
+		
+	
+		
+	}
 }
