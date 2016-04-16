@@ -4,16 +4,43 @@
  * @author  
  *
  */
-public class PigGUI {
+
+
+import java.awt.event.*;
+import java.awt.*;
+import java.text.*;
+
+import javax.imageio.*;
+import javax.swing.*;
+import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.*;
+import java.net.URL;
+public class PigGUI extends JFrame {
 	
-	String[] stats;
+	//String[] stats;
 	/**
 	 * k
 	 */
 	public PigGUI() {
 		//TODO Peng - load stats
 		//TODO start GUI
+		// Appears on the top bar
+		setTitle("Simple example");
+		// Size of the window to be rendered
+		setSize(300, 200);
+		// this centers the window
+		setLocationRelativeTo(null);
+		// ends the program when we close the window
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//PigClient.getPigClient(gui, stats)
 	}
+	
 	/**
 	 * @param playerIDs b
 	 */
@@ -38,9 +65,9 @@ public class PigGUI {
 	 * 
 	 * @param stats
 	 */
-	public void join(PigStats stats){
+/*	public void join(PigStats stats){
 		
-	}
+	}*/
 	/**
 	 * 
 	 * @param playerID
@@ -67,18 +94,14 @@ public class PigGUI {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		PigGUI application = new PigGUI();
-	}
+		SwingUtilities.invokeLater(new Runnable() {
+
+		//PigGUI application = new PigGUI();
 	
-	public void giveStats(PigStats stats) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void disconnect() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+		public void run() {
+			PigGUI ex = new PigGUI();
+			ex.setVisible(true);
+			}
+		});
+}
 }
