@@ -40,13 +40,8 @@ public class PigServer implements PigIO {
 
 	public void startGame() {
 		lobby.running = false;
-		engine = new PigEngine(this, clients.size() + 1);
-		engine.start();
-	}
-	
-	@Override
-	public PigStats getStats(int playerID) {
-		return clients.get(playerID).stats;
+		engine = new PigEngine(this, clients.size());
+		//engine.start();
 	}
 	
 	/*
@@ -63,13 +58,13 @@ public class PigServer implements PigIO {
 				server.setSoTimeout(10000);
 			} catch (Exception e) {
 				e.printStackTrace();
+				return;
 			}
 			while (running) {
 				try {
 					Player p = new Player(server.accept());
-					clients.add(p);
 					p.start();
-					//TODO update existing players of new player
+					sendAll(new PigMsg(PLAYER_JOINED, p.stats));
 				} catch (Exception e) {
 				}
 			}
@@ -90,8 +85,17 @@ public class PigServer implements PigIO {
 		protected PigStats stats;
 
 		public Player(Socket socket) throws SocketException {
-			running = true;
 			this.socket = socket;
+			try {
+				input = new ObjectInputStream(socket.getInputStream());
+				output = new ObjectOutputStream(socket.getOutputStream());
+				stats = (PigStats) input.readObject();
+				for (int i = 0; i < clients.size(); i++) {
+					output.writeObject(new PigMsg(PLAYER_JOINED, clients.get(i).stats));
+				}
+				clients.add(this);
+			} catch (Exception e) {
+			}
 			this.start();
 		}
 		
@@ -101,12 +105,8 @@ public class PigServer implements PigIO {
 		}
 		
 		public void run() {
+				running = true;
 				try {
-					input = new ObjectInputStream(socket.getInputStream());
-					output = new ObjectOutputStream(socket.getOutputStream());
-					stats = (PigStats) input.readObject();
-					//TODO update new player of existing players
-					this.socket.setSoTimeout(0);
 					while (running) {
 						serverParse((PigMsg) input.readObject(), clients.indexOf(this));
 					}
@@ -115,11 +115,23 @@ public class PigServer implements PigIO {
 				}
 		}
 		
-		public void send(PigMsg msg) {
+		public boolean send(PigMsg msg) {
+			if (!running) {
+				if (msg.command.equals(SELF_ROLL)) {
+					serverParse(new PigMsg(ROLL_AGAIN, 1), clients.indexOf(this));
+				}
+				return true;
+			}
+			if (socket == null) {
+				clientParse(msg);
+				return true;
+			}
 			try {
 				output.writeObject(msg);
+				return true;
 			} catch (IOException e) {
 				serverParse(new PigMsg(PLAYER_LEFT, 0), clients.indexOf(this));
+				return false;
 			}
 		}
 		
@@ -151,20 +163,34 @@ public class PigServer implements PigIO {
 			break;
 		case PLAYER_LEFT:
 			clients.get(playerID).close();
-			clients.remove(playerID);
+			if (lobby.running == true) clients.remove(playerID);
 			msg.args[0] = playerID;
 			sendAll(msg);
 		}
 	}
 	
+	//if you change this, change PigClient.parse() as well
 	private void clientParse(PigMsg msg) {
-		//TODO
+		switch (msg.command) {
+		case PLAYER_JOINED:
+			gui.join(msg.stats);
+		case PLAYER_LEFT:
+			gui.leave(msg.args[0]);
+		case SET_TURN:
+			gui.setTurn(msg.args[0]);
+		case SET_ORDER:
+			gui.setOrder(msg.args);
+		case OTHER_ROLL:
+			gui.rollOther(msg.args[0]);
+		case SELF_ROLL:
+			gui.roll(msg.args[0]);
+		}
 	}
 	
 	private void sendAll(PigMsg msg) {
-		clientParse(msg);
-		for (int i = 1; i < clients.size(); i++) {
-			clients.get(i).send(msg);
+		for (int i = 0; i < clients.size(); i++) {
+			if (!clients.get(i).send(msg))
+				i--; // because failure means the player is removed
 		}
 	}
 	

@@ -53,6 +53,7 @@ public class PigClient extends Thread implements PigIO {
 		}
 	}
 	
+	//if you change this, change PigServer.clientParse() as well.
 	private void parse(PigMsg msg) {
 		switch (msg.command) {
 		case PLAYER_JOINED:
@@ -60,7 +61,7 @@ public class PigClient extends Thread implements PigIO {
 		case PLAYER_LEFT:
 			gui.leave(msg.args[0]);
 		case SET_TURN:
-			//TODO
+			gui.setTurn(msg.args[0]);
 		case SET_ORDER:
 			gui.setOrder(msg.args);
 		case OTHER_ROLL:
@@ -90,9 +91,5 @@ public class PigClient extends Thread implements PigIO {
 		}
 		gui.disconnect();
 	}
-
-	@Override
-	public PigStats getStats(int playerID) {
-		// TODO Auto-generated method stub
-		return null;
-	}}
+	
+}

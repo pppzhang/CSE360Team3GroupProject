@@ -15,8 +15,6 @@ public interface PigIO {
 	public static final String ROLL_AGAIN = "roll?";
 	
 	public void exit();
-	//public void rollAgain(boolean b);
-	public PigStats getStats(int playerID);
 	
 	public class PigMsg implements Serializable {
 		private static final long serialVersionUID = -7084128846562180341L;
