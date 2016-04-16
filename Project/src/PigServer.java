@@ -10,7 +10,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-
+/**
+ * 
+ * @author Nathan Sears
+ *
+ */
 public class PigServer implements PigIO {
 	ServerSocket server;
 	private PigGUI gui;
