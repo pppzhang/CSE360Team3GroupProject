@@ -41,6 +41,7 @@ public class PigGUI extends JFrame {
 	PigStats pstats= new PigStats("UserName");
 	JTextField text1;
 	JTextArea textArea;
+	JTextArea statArea;
 	JScrollPane scrollPane;
 	private int toggle1;
 	/**
@@ -58,7 +59,7 @@ public class PigGUI extends JFrame {
 			
 		
 	}
-
+	
 	private void mainn(){
 		panel= new JPanel();
 		
@@ -78,19 +79,8 @@ public class PigGUI extends JFrame {
 		
 		
 		
-		textArea = new JTextArea(rules());
 		
-		textArea.setLayout(null);
-		//textArea.setLocation(250, 125);
-		textArea.setEditable(false);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.setBounds(250, 125, 250, 250);
-		textArea.setBorder(BorderFactory.createLineBorder(Color.black));
-		//textArea.insert(rules(),0);d
-		//scrollPane = new JScrollPane(textArea); 
 		
-		//PigClient.getPigClient(gui, stats)
 		
 		boolean stop = false;
 		Rules = new JButton("Rules");
@@ -99,14 +89,24 @@ public class PigGUI extends JFrame {
 		Rules.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				//panel.add(new JScrollPane (textArea));
+				
 				if (toggle1 % 2 == 0){
+					//ruleText();
+					if(textArea!= null){
+						remove(textArea);
+						panel.revalidate();
+						validate();
+						repaint();
+					}
+					textArea=ruleText();
 					panel.add(textArea);
-					
 					panel.revalidate();
 					validate();
 					repaint();
 					toggle1 ++;
+				
 				}else {
+					
 					panel.remove(textArea);
 					panel.revalidate();
 					validate();
@@ -121,6 +121,37 @@ public class PigGUI extends JFrame {
 				}
 			});
 	
+		Stats = new JButton("Stats");
+		Stats.setBounds(50, 250, 100, 30);
+		Stats.setToolTipText("See Stats of other players");
+		Stats.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				if (toggle1 % 2 == 0){
+					//ruleText();
+					if(textArea!= null){
+						remove(textArea);
+						panel.revalidate();
+						validate();
+						repaint();
+					}
+					textArea=statText();
+					panel.add(textArea);
+					panel.revalidate();
+					validate();
+					repaint();
+					toggle1 ++;
+				
+				}else {
+					
+					panel.remove(textArea);
+					panel.revalidate();
+					validate();
+					repaint();
+					toggle1 ++;
+				}
+				
+				}
+			});
 		
 		
 		
@@ -150,15 +181,6 @@ public class PigGUI extends JFrame {
 				join(pstats);
 				//System.exit(0);
 				
-				
-				}
-			});
-		Stats = new JButton("Stats");
-		Stats.setBounds(50, 250, 100, 30);
-		Stats.setToolTipText("See Stats of other players");
-		Stats.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-					System.exit(0);
 				
 				}
 			});
@@ -224,9 +246,44 @@ public class PigGUI extends JFrame {
 	 * @param playerIDs b
 	 */
 	public static String rules(){
-		String rules = "Rules blah blah balkd alkjalkjdfjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAalkajdfkladjfa alkfjakjfalk";
+		String rules = "Rules\nblah blah balkd alkjalkjdfjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAalkajdfkladjfa alkfjakjfalk";
 	
 		return rules;
+	}
+	private JTextArea statText(){
+		JTextArea statArea = new JTextArea("Stats");//this will call stateToString()
+		statArea.setLayout(null);
+		//textArea.setLocation(250, 125);
+		statArea.setEditable(false);
+		statArea.setLineWrap(true);
+		statArea.setWrapStyleWord(true);
+		statArea.setBounds(250, 125, 250, 250);
+		statArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		return statArea;
+	}
+	private String statToString(){
+		
+		//ToDo 
+		
+		return null;
+	}
+	
+	private JTextArea ruleText(){
+		
+		JTextArea	ruleArea = new JTextArea(rules());
+		ruleArea.setLayout(null);
+		//textArea.setLocation(250, 125);
+		ruleArea.setEditable(false);
+		ruleArea.setLineWrap(true);
+		ruleArea.setWrapStyleWord(true);
+		ruleArea.setBounds(250, 125, 250, 250);
+		ruleArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		//textArea.insert(rules(),0);d
+				//scrollPane = new JScrollPane(textArea); 
+				
+				//PigClient.getPigClient(gui, stats)
+		return ruleArea;
+	
 	}
 	public void setOrder(int [] playerIDs){
 		
