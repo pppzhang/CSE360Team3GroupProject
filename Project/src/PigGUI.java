@@ -237,7 +237,7 @@ public class PigGUI extends JFrame {
 		leave.setToolTipText("Join Game");
 		leave.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent event) {
-					//System.exit(0);
+				
 				leave(0);
 				if(textArea!= null){
 					remove(textArea);
