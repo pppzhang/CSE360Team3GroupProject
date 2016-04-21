@@ -87,7 +87,7 @@ public class PigGUI extends JFrame {
 		textArea.setWrapStyleWord(true);
 		textArea.setBounds(250, 125, 250, 250);
 		textArea.setBorder(BorderFactory.createLineBorder(Color.black));
-		//textArea.insert(rules(),0);
+		//textArea.insert(rules(),0);d
 		//scrollPane = new JScrollPane(textArea); 
 		
 		//PigClient.getPigClient(gui, stats)
