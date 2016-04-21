@@ -24,7 +24,7 @@ public class PigStats {
 	
 	
 	static public PigStats getPigStats() {
-		//load from file
+		//load from file (using FileInputStream/ObjectInputStream and explicit casting readObject to PigStats)
 		//if error loading file:
 			return (new PigStats());
 	}
