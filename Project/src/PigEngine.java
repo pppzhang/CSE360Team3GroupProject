@@ -50,5 +50,9 @@ public class PigEngine extends Thread {
 		
 	}
 	
+	public void rollAgain(int playerID, boolean choice) {
+		//TODO
+	}
+	
 
 }
