@@ -1,51 +1,48 @@
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 /**
  * PigStats store player statistics and send player statistics to other classes upon request. 
  * @author Peng Zhang
  *
  */
 public class PigStats {
-	public String username;
-	private int score;
-	private ArrayList<Integer> rollNumber;
-	
-	/**
-	 * Constructor needs a player's username. Initialize score and roll results.
-	 * @param username
-	 */
-	public PigStats (String username) {
-		this.username = username;
-		this.score = 0;
-		this.rollNumber = new ArrayList<>();
+	private String username;
+	private int totalScore;
+	private double averageScore;
+	private int numGamesPlayed;
+	private int numGamesWon;
+	private int numOnesRolled;
+
+	private PigStats() {
+		username = JOptionPane.showInputDialog("Enter your username: ");
+		//instantiate other instance variables
+		
 	}
 	
-	/**
-	 * addRollNumber receives dice roll result and add it to score, reset score to 0 if roll number is 1.
-	 * @param roll
-	 */
-	public void addRollNumber (int roll) {
-		rollNumber.add(roll);
-		if (roll == 1)
-			this.score = 0;
-		else
-			this.score = this.score + roll;
+	
+	public PigStats getPigStats() {
+		//load from file
+		//if error loading file:
+			return (new PigStats());
 	}
 	
+
+	
 	/**
-	 * getScore returns a player's score to caller
-	 * @return
+	 * 
+	 * @param rolls The die values of the player's rolls.
+	 * @param winner Did the player win?
 	 */
+	public save(int rolls[], boolean winner) {
+		//update instance variables with new data and save to file (create file if cannot find find)
+	}
+	
+	//PENG: we need one of these for all the existing instance variables.
 	public int getScore() {
 		return score;
 	}
 	
-	/**
-	 * getRollNumber returns a player's every roll results to caller
-	 * @return
-	 */
-	public ArrayList<Integer> getRollNumber() {
-		return rollNumber;
-	}
 }
