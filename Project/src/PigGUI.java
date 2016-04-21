@@ -74,6 +74,11 @@ public class PigGUI extends JFrame {
 		setLocation(200,200);
 		// this centers the window
 		setLocationRelativeTo(null);
+		try {
+    		setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("dice.jpg")))));
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
 		// ends the program when we close the window
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -86,6 +91,7 @@ public class PigGUI extends JFrame {
 		Rules = new JButton("Rules");
 		Rules.setBounds(50, 150, 100, 30);
 		Rules.setToolTipText("Rules of the Game");
+		Rules.setBackground(Color.WHITE);
 		Rules.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				//panel.add(new JScrollPane (textArea));
@@ -98,6 +104,7 @@ public class PigGUI extends JFrame {
 						validate();
 						repaint();
 					}
+					
 					textArea=ruleText();
 					panel.add(textArea);
 					panel.revalidate();
@@ -124,6 +131,7 @@ public class PigGUI extends JFrame {
 		Stats = new JButton("Stats");
 		Stats.setBounds(50, 250, 100, 30);
 		Stats.setToolTipText("See Stats of other players");
+		Stats.setBackground(Color.WHITE);
 		Stats.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				if (toggle1 % 2 == 0){
@@ -158,6 +166,7 @@ public class PigGUI extends JFrame {
 		Host = new JButton("Host");
 		Host.setBounds(250, 400, 100, 30);
 		Host.setToolTipText("Host Game");
+		Host.setBackground(Color.WHITE);
 		Host.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 					//System.exit(0);
@@ -170,6 +179,7 @@ public class PigGUI extends JFrame {
 		Join = new JButton("Join");
 		Join.setBounds(500, 400, 100, 30);
 		Join.setToolTipText("Join Game");
+		Join.setBackground(Color.WHITE);
 		Join.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				//IO=PigClient.getPigClient(gui, stats);	
