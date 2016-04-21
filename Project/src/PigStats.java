@@ -23,12 +23,17 @@ public class PigStats {
 	}
 	
 	
-	public PigStats getPigStats() {
+	static public PigStats getPigStats() {
 		//load from file
 		//if error loading file:
 			return (new PigStats());
 	}
 	
+	public String getUserName(){
+		
+		return username;
+		
+	}
 
 	
 	/**

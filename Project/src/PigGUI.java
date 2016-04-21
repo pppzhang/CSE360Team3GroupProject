@@ -39,7 +39,7 @@ public class PigGUI extends JFrame {
 	JButton leave;
 	PigIO IO;
 	PigGUI gui;
-	PigStats pstats= new PigStats("UserName");
+	PigStats pstats=PigStats.getPigStats();
 	JTextField nameText;
 	JTextArea textArea;
 	JTextArea statArea;
@@ -222,7 +222,7 @@ public class PigGUI extends JFrame {
 				
 		startButton = new JButton("Start Button");
 		startButton.setBounds(250, 400, 100, 30);
-		startButton.setToolTipText("Host Game");
+		startButton.setToolTipText("Lets Begin Game");
 		startButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent event) {
 			
@@ -234,7 +234,7 @@ public class PigGUI extends JFrame {
 				
 		leave = new JButton("Leave");
 		leave.setBounds(350, 400, 100, 30);
-		leave.setToolTipText("Join Game");
+		leave.setToolTipText("Leave Game");
 		leave.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent event) {
 				
@@ -350,7 +350,7 @@ public class PigGUI extends JFrame {
 		}catch (IndexOutOfBoundsException e){
 			
 		}
-			
+		remove(textArea);	
 		panel.revalidate();
 		validate();
 		repaint();
@@ -392,9 +392,10 @@ public class PigGUI extends JFrame {
 		public Player( PigStats stats) {
 			this.statistics = stats;
 			statArea=statText(stats);
-			button= new JButton(stats.username);
+			button= new JButton(stats.getUserName());
 			button.setBounds(50, 150, 100, 40);
 			button.setToolTipText("Get Player Stats");
+			button.setBackground(Color.WHITE);
 			button.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent event) {
