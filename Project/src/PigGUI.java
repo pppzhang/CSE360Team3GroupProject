@@ -33,18 +33,20 @@ public class PigGUI extends JFrame {
 	JLabel imagelabel;
 	JPanel panel;
 	JPanel panel2;
+	JPanel playerButtons;
 	JButton namePlates;
 	JButton startButton;
 	JButton leave;
 	PigIO IO;
 	PigGUI gui;
 	PigStats pstats= new PigStats("UserName");
-	JTextField text1;
+	JTextField nameText;
 	JTextArea textArea;
 	JTextArea statArea;
 	JScrollPane scrollPane;
 	JLabel imageL;
 	private int toggle1;
+	ArrayList<Player>playerList;
 	/**
 	 * k
 	 */
@@ -53,7 +55,7 @@ public class PigGUI extends JFrame {
 		//TODO start GUI
 		//imagelabel= new JLabel ();
 		gui = this;
-		list = new ArrayList<JButton>();
+		playerList = new ArrayList<Player>();
 		getContentPane().setBackground( Color.black );
 		mainn();
 		
@@ -205,49 +207,54 @@ public class PigGUI extends JFrame {
 	}
 	
 	private void lobby(){
-
+		
 
 		panel.removeAll();
 		getContentPane().removeAll();		
+		playerButtons = new JPanel(new GridLayout(0, 1));
+		
+		nameText = new JTextField("Players In Lobby: ");
+		nameText.setEditable(false);
+		nameText.setHorizontalAlignment(JTextField.CENTER);
+		nameText .setBounds(50,50, 150, 75);
+		nameText.setOpaque(true);		
+		nameText.setFont(new Font("SansSerif",Font.BOLD, 15));
 				
-				namePlates = new JButton("Name PLates");
-				namePlates.setBounds(50,50, 100, 30);
-				namePlates.setToolTipText("Rules of the Game");
-				namePlates.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent event) {
-							//System.exit(0);
-							
-						}
-					});
-				startButton = new JButton("Start Button");
-				startButton.setBounds(250, 400, 100, 30);
-				startButton.setToolTipText("Host Game");
-				startButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent event) {
-							
-						   IO = new PigServer(gui,pstats);
-						   System.exit(0);
-						   //(PigServer) io).startGame()
-					}
-					});
+		startButton = new JButton("Start Button");
+		startButton.setBounds(250, 400, 100, 30);
+		startButton.setToolTipText("Host Game");
+		startButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent event) {
+			
+			   IO = new PigServer(gui,pstats);
+			   System.exit(0);
+			   //(PigServer) io).startGame()
+				}
+				});
 				
-				leave = new JButton("Leave");
-				leave.setBounds(350, 400, 100, 30);
-				leave.setToolTipText("Join Game");
-				leave.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent event) {
-							//System.exit(0);
-							leave(0);
-						}
-					});
-							
-				panel.add(namePlates);
-				panel.add(startButton);
-				panel.add(leave);
-				getContentPane().add(panel);
-				panel.revalidate();
-				validate();
-				repaint();
+		leave = new JButton("Leave");
+		leave.setBounds(350, 400, 100, 30);
+		leave.setToolTipText("Join Game");
+		leave.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent event) {
+				
+				leave(0);
+				if(textArea!= null){
+					remove(textArea);
+					panel.revalidate();
+					validate();
+					repaint();
+				}
+			}
+		});
+						
+		panel.add(nameText);
+		panel.add(startButton);
+		panel.add(leave);
+		getContentPane().add(panel);
+		panel.revalidate();
+		validate();
+		repaint();
 				
 	}
 	/**
@@ -258,7 +265,9 @@ public class PigGUI extends JFrame {
 	
 		return rules;
 	}
+	
 	private JTextArea statText(){
+		
 		JTextArea statArea = new JTextArea("Stats");//this will call stateToString()
 		statArea.setLayout(null);
 		//textArea.setLocation(250, 125);
@@ -317,20 +326,11 @@ public class PigGUI extends JFrame {
 	public void join(PigStats stats){
 		//listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
 		
-		JButton nameButton= new JButton(stats.username);
-		nameButton.setBounds(350, 350, 100, 40);
-		nameButton.setToolTipText("Get Player Stats");
-		nameButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				//TODO disply stats
-				
-			   //(PigServer) io).startGame()
-			}
-			});
 		
-		list.add(nameButton);
+		
+		playerList.add(new Player(stats));
 		//panel2.add(nameButton);
-		panel.add(nameButton);
+		panel.add(playerList.get(playerList.size() - 1).button);//get last added
 		getContentPane().add(panel);
 		panel.revalidate();
 		validate();
@@ -345,8 +345,8 @@ public class PigGUI extends JFrame {
 	public void leave(int playerID){
 		
 		try{//try/catch is if leave is press after button is already been removed
-			panel.remove(list.get(playerID));
-			list.remove(playerID);
+			panel.remove(playerList.get(playerID).button);
+			playerList.remove(playerID);
 		}catch (IndexOutOfBoundsException e){
 			
 		}
@@ -383,8 +383,65 @@ public class PigGUI extends JFrame {
 			ex.setVisible(true);
 			}
 		});
-		
-	
-		
+	}
+	public class Player {
+		PigStats statistics;
+		JButton button;
+		JTextArea statArea;
+		int toggle1;
+		public Player( PigStats stats) {
+			this.statistics = stats;
+			statArea=statText(stats);
+			button= new JButton(stats.username);
+			button.setBounds(50, 150, 100, 40);
+			button.setToolTipText("Get Player Stats");
+			button.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent event) {
+					//TODO disply stats
+					if (toggle1 % 2 == 0){
+						//ruleText();
+						if(textArea!= null){
+							remove(textArea);
+							panel.revalidate();
+							validate();
+							repaint();
+						}
+						textArea=statText(statistics);
+						panel.add(textArea);
+						panel.revalidate();
+						validate();
+						repaint();
+						toggle1 ++;
+					
+					}else {
+						
+						panel.remove(textArea);
+						panel.revalidate();
+						validate();
+						repaint();
+						toggle1 ++;
+					}
+					
+				   //(PigServer) io).startGame()
+				}
+				});
+		}
+		private  JTextArea statText(PigStats stats){
+			
+			JTextArea statArea = new JTextArea("Stats");//this will call stateToString()
+			statArea.setLayout(null);
+			//textArea.setLocation(250, 125);
+			statArea.setEditable(false);
+			statArea.setLineWrap(true);
+			statArea.setWrapStyleWord(true);
+			statArea.setBounds(250, 125, 250, 250);
+			statArea.setBorder(BorderFactory.createLineBorder(Color.black));
+			
+			return statArea;
+			
+			
+		}
+
 	}
 }
