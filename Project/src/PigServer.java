@@ -37,10 +37,12 @@ public class PigServer implements PigIO {
 	/*
 	 * CLASSES ACCESSED BY GUI
 	 */
+
+	@Override
+	public void rollAgain(boolean choice) {
+		engine.rollAgain(0, choice);
+	}
 	
-	/* (non-Javadoc)
-	 * @see PigIO#exit()
-	 */
 	@Override
 	public void exit() {
 		for (Player p : clients) {
@@ -140,16 +142,16 @@ public class PigServer implements PigIO {
 		 * @return true if success, false if fail
 		 */
 		public boolean send(PigMsg msg) {
-			//disconnected player
-			if (!running) {
-				if (msg.command.equals(SELF_ROLL)) {
-					serverParse(new PigMsg(ROLL_AGAIN, 1), clients.indexOf(this));
-				}
-				return true;
-			}
 			//host player
 			if (socket == null) {
 				clientParse(msg);
+				return true;
+			}
+			//disconnected player
+			if (!running) {
+				if (msg.command == (SELF_ROLL)) {
+					serverParse(new PigMsg(ROLL_AGAIN, 1), clients.indexOf(this));
+				}
 				return true;
 			}
 			//connected player
@@ -158,7 +160,8 @@ public class PigServer implements PigIO {
 				return true;
 			} catch (IOException e) {
 				serverParse(new PigMsg(PLAYER_LEFT, 0), clients.indexOf(this));
-				return false;
+				this.send(msg);
+				return !lobby.running;
 			}
 		}
 		
@@ -193,7 +196,8 @@ public class PigServer implements PigIO {
 	private void serverParse(PigMsg msg, int playerID) {
 		switch (msg.command) {
 		case ROLL_AGAIN:
-			//TODO
+			if (msg.args[0] == 1) engine.rollAgain(playerID, true);
+			else engine.rollAgain(playerID, false);
 			break;
 		case PLAYER_LEFT:
 			clients.get(playerID).close();
@@ -239,33 +243,43 @@ public class PigServer implements PigIO {
 	 */
 	
 	/**
-	 * @param playerID
+	 * Accessed by Engine
+	 * @param playerID The player whose turn is starting.
 	 */
 	public void setTurn(int playerID) {
-		//TODO engine action
+		sendAll(new PigMsg(SET_TURN, playerID));
 	}
 	
 	/**
-	 * @param playerIDs
+	 * Accessed by Engine
+	 * @param playerIDs An array containing the playerID's (starting at playerID = 0) in the order that they will take their turns.
 	 */
 	public void setOrder(int[] playerIDs) {
-		//TODO engine action
+		sendAll(new PigMsg(SET_ORDER, playerIDs));
 	}
 	
 	/**
-	 * @param playerID
-	 * @param previousValue
-	 * @param newValue
+	 * Accessed by Engine
+	 * @param playerID The player that rolled.
+	 * @param previousValue The value that the player rolled before.
+	 * @param newValue The value that the player just rolled.
 	 */
 	public void roll(int playerID, int previousValue, int newValue) {
-		//TODO engine action
+		for (int i = 0; i < clients.size(); i++) {
+			if (i == playerID) {
+				clients.get(i).send(new PigMsg(SELF_ROLL, newValue));
+			} else {
+				clients.get(i).send(new PigMsg(OTHER_ROLL, previousValue));
+			}
+		}
 	}
 	
 	/**
-	 * @param lastValues
+	 * Accessed by Engine
+	 * @param lastValues The last value that each player rolled. The index of the roll number corresponds to the playerID's. 
 	 */
 	public void reveal(int[] lastValues) {
-		//TODO engine action
+		sendAll(new PigMsg(REVEAL, lastValues));
 	}
 	
 }

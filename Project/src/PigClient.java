@@ -46,7 +46,7 @@ public class PigClient extends Thread implements PigIO {
 	public void run() {
 		try {
 			while (true) {
-					parse((PigMsg) input.readObject());
+				parse((PigMsg) input.readObject());
 			}
 		} catch (Exception e) {
 			exit();
@@ -73,10 +73,18 @@ public class PigClient extends Thread implements PigIO {
 			gui.roll(msg.args[0]);
 		}
 	}
+	
+	@Override
+	public void rollAgain(boolean choice) {
+		try {
+			int ch = 0;
+			if (choice) ch = 1;
+			output.writeObject(new PigMsg(ROLL_AGAIN, ch));
+		} catch (Exception e) {
+			exit();
+		}
+	}
 
-	/* (non-Javadoc)
-	 * @see PigIO#exit()
-	 */
 	@Override
 	public void exit() {
 		try {
