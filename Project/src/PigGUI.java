@@ -43,6 +43,7 @@ public class PigGUI extends JFrame {
 	JTextArea textArea;
 	JTextArea statArea;
 	JScrollPane scrollPane;
+	JLabel imageL;
 	private int toggle1;
 	/**
 	 * k
@@ -53,6 +54,7 @@ public class PigGUI extends JFrame {
 		//imagelabel= new JLabel ();
 		gui = this;
 		list = new ArrayList<JButton>();
+		getContentPane().setBackground( Color.black );
 		mainn();
 		
 		
@@ -64,6 +66,7 @@ public class PigGUI extends JFrame {
 		panel= new JPanel();
 		
 		getContentPane().add(panel);
+		
 		//getContentPane().add(scrollPane);
 		panel.setLayout(null);
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -74,12 +77,7 @@ public class PigGUI extends JFrame {
 		setLocation(200,200);
 		// this centers the window
 		setLocationRelativeTo(null);
-		try {
-    		setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("dice.jpg")))));
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-		// ends the program when we close the window
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		
