@@ -38,7 +38,11 @@ public class PigGUI extends JFrame {
 	JButton leave;
 	PigIO IO;
 	PigGUI gui;
-	PigStats stats= new PigStats("UserName");
+	PigStats pstats= new PigStats("UserName");
+	JTextField text1;
+	JTextArea textArea;
+	JScrollPane scrollPane;
+	private int toggle1;
 	/**
 	 * k
 	 */
@@ -57,7 +61,9 @@ public class PigGUI extends JFrame {
 
 	private void mainn(){
 		panel= new JPanel();
+		
 		getContentPane().add(panel);
+		//getContentPane().add(scrollPane);
 		panel.setLayout(null);
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		// pears on the top bar
@@ -69,31 +75,69 @@ public class PigGUI extends JFrame {
 		setLocationRelativeTo(null);
 		// ends the program when we close the window
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		
+		
+		textArea = new JTextArea(rules());
+		
+		textArea.setLayout(null);
+		//textArea.setLocation(250, 125);
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setBounds(250, 125, 250, 250);
+		textArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		//textArea.insert(rules(),0);
+		//scrollPane = new JScrollPane(textArea); 
+		
 		//PigClient.getPigClient(gui, stats)
+		
 		boolean stop = false;
 		Rules = new JButton("Rules");
 		Rules.setBounds(50, 150, 100, 30);
 		Rules.setToolTipText("Rules of the Game");
 		Rules.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-					System.exit(0);
+				//panel.add(new JScrollPane (textArea));
+				if (toggle1 % 2 == 0){
+					panel.add(textArea);
+					
+					panel.revalidate();
+					validate();
+					repaint();
+					toggle1 ++;
+				}else {
+					panel.remove(textArea);
+					panel.revalidate();
+					validate();
+					repaint();
+					toggle1 ++;
+				}
+				
+				//panel.add(scrollPane);
+				//pack();
+				
 				
 				}
 			});
+	
+		
+		
+		
 		Host = new JButton("Host");
 		Host.setBounds(250, 400, 100, 30);
 		Host.setToolTipText("Host Game");
 		Host.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 					//System.exit(0);
-				   IO = new PigServer(gui,stats);
+				   IO = new PigServer(gui,pstats);
 				   
 				   //(PigServer) io).startGame()
 			}
 			});
 		
 		Join = new JButton("Join");
-		Join.setBounds(350, 400, 100, 30);
+		Join.setBounds(500, 400, 100, 30);
 		Join.setToolTipText("Join Game");
 		Join.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
@@ -103,7 +147,7 @@ public class PigGUI extends JFrame {
 					lobby();
 				}
 				lobby();
-				join(stats);
+				join(pstats);
 				//System.exit(0);
 				
 				
@@ -119,10 +163,15 @@ public class PigGUI extends JFrame {
 				}
 			});
 		
+		
+		
 		panel.add(Host);
 		panel.add(Join);
 		panel.add(Stats);
 		panel.add(Rules);
+		//pack();
+		//setVisible(true);
+		//
 	}
 	
 	private void lobby(){
@@ -146,7 +195,7 @@ public class PigGUI extends JFrame {
 				startButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 							
-						   IO = new PigServer(gui,pStats);
+						   IO = new PigServer(gui,pstats);
 						   System.exit(0);
 						   //(PigServer) io).startGame()
 					}
@@ -174,7 +223,11 @@ public class PigGUI extends JFrame {
 	/**
 	 * @param playerIDs b
 	 */
+	public static String rules(){
+		String rules = "Rules blah blah balkd alkjalkjdfjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAalkajdfkladjfa alkfjakjfalk";
 	
+		return rules;
+	}
 	public void setOrder(int [] playerIDs){
 		
 	}
@@ -209,6 +262,7 @@ public class PigGUI extends JFrame {
 			   //(PigServer) io).startGame()
 			}
 			});
+		
 		list.add(nameButton);
 		//panel2.add(nameButton);
 		panel.add(nameButton);
@@ -224,8 +278,14 @@ public class PigGUI extends JFrame {
 	 * @param playerID
 	 */
 	public void leave(int playerID){
-		panel.remove(list.get(playerID));
-		list.remove(playerID);
+		
+		try{//try/catch is if leave is press after button is already been removed
+			panel.remove(list.get(playerID));
+			list.remove(playerID);
+		}catch (IndexOutOfBoundsException e){
+			
+		}
+			
 		panel.revalidate();
 		validate();
 		repaint();
