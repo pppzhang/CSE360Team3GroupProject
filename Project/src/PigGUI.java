@@ -245,8 +245,8 @@ public class PigGUI extends JFrame {
 					validate();
 					repaint();
 				}
-				}
-				});
+			}
+		});
 						
 		panel.add(nameText);
 		panel.add(startButton);
