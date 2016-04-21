@@ -302,22 +302,30 @@ public class PigGUI extends JFrame {
 		return ruleArea;
 	
 	}
+	
+	public void disconnect() {
+		//TODO goes back to the main panel
+	}
+	
 	public void setOrder(int [] playerIDs){
-		
+		//TODO remove namecards and re-add in this order
 	}
 	/**
 	 * 
 	 * @param oldValue
 	 */
-	public void rollOther (int oldValue){
-		
+	public void rollOther (int playerID, int oldValue){
+		//TODO add old value die to player, move blank die to the right
+		//if oldValue == 0, it is the first roll and just add a blank die
+		//Keep track of SUM (add int global to player class?) to determine winner at end.
 	}
 	/**
 	 * 
 	 * @param newValue
 	 */
 	public void roll(int newValue){
-		
+		//TODO add die face to yourself. ENABLE pass/roll buttons. DISABLE them when they are clicked.
+		//keep track of each of these (ArrayList<Integer>)
 	}
 	/**
 	 * 
@@ -360,14 +368,15 @@ public class PigGUI extends JFrame {
 	 * @param playerID
 	 */
 	public void setTurn(int playerID){
-		
+		//TODO indicate whose turn it is
+		//if playerID == -1, the game is ended. Take your roll
 	}
 	/**
 	 * 
 	 * @param lastValues
 	 */
 	public void reveal(int [] lastValues){
-		
+		//TODO reveal the hidden dice based on these values. Indexes = playerIDs.
 	}
 	/**
 	 * 

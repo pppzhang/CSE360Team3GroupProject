@@ -222,7 +222,7 @@ public class PigServer implements PigIO {
 		case SET_ORDER:
 			gui.setOrder(msg.args);
 		case OTHER_ROLL:
-			gui.rollOther(msg.args[0]);
+			gui.rollOther(msg.args[0], msg.args[1]);
 		case SELF_ROLL:
 			gui.roll(msg.args[0]);
 		}
@@ -269,7 +269,8 @@ public class PigServer implements PigIO {
 			if (i == playerID) {
 				clients.get(i).send(new PigMsg(SELF_ROLL, newValue));
 			} else {
-				clients.get(i).send(new PigMsg(OTHER_ROLL, previousValue));
+				int[] args = {playerID, previousValue};
+				clients.get(i).send(new PigMsg(OTHER_ROLL, args));
 			}
 		}
 	}

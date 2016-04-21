@@ -68,7 +68,7 @@ public class PigClient extends Thread implements PigIO {
 		case SET_ORDER:
 			gui.setOrder(msg.args);
 		case OTHER_ROLL:
-			gui.rollOther(msg.args[0]);
+			gui.rollOther(msg.args[0], msg.args[1]);
 		case SELF_ROLL:
 			gui.roll(msg.args[0]);
 		}
