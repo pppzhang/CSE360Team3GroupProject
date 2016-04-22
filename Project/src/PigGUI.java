@@ -47,11 +47,15 @@ public class PigGUI extends JFrame {
 	JLabel imageL;
 	private int toggle1;
 	ArrayList<Player>playerList;
+	//// this to line up user buttons. used in play class
+	public int grid;
+	
 	/**
 	 * k
 	 */
 	public PigGUI() {
 		//TODO Peng - load stats
+		grid=100;
 		//TODO start GUI
 		//imagelabel= new JLabel ();
 		gui = this;
@@ -433,7 +437,7 @@ public class PigGUI extends JFrame {
 			this.statistics = stats;
 			statArea=statText(stats);
 			button= new JButton(stats.getUserName());
-			button.setBounds(50, 150, 100, 40);
+			button.setBounds(35, grid, 100, 40);
 			button.setToolTipText("Get Player Stats");
 			button.setBackground(Color.WHITE);
 			button.addActionListener(new ActionListener() {
@@ -471,6 +475,7 @@ public class PigGUI extends JFrame {
 				   //(PigServer) io).startGame()
 				}
 				});
+			grid=grid+50;
 		}
 		private  JTextArea statText(PigStats stats){
 			//had to put username first . coudlnt figure it out. 
