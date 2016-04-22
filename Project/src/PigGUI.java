@@ -31,8 +31,8 @@ public class PigGUI extends JFrame {
 	JButton Stats;
 	JButton Rules;
 	JLabel imagelabel;
-	JPanel panel;
-	JPanel panel2;
+	JLabel panel;
+	ImageIcon dice;
 	JPanel playerButtons;
 	JButton namePlates;
 	JButton startButton;
@@ -65,22 +65,32 @@ public class PigGUI extends JFrame {
 	}
 	
 	private void mainn(){
-		panel= new JPanel();
 		
-		getContentPane().add(panel);
+				
 		
-		//getContentPane().add(scrollPane);
-		panel.setLayout(null);
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		// pears on the top bar
 		setTitle("Pass the Pig");
-		// Size of the window to be rendered
+		
 		setSize(750, 500);
 		setLocation(200,200);
-		// this centers the window
-		setLocationRelativeTo(null);
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		BufferedImage img = null;
+	    try {
+	        img = ImageIO.read(new File("img/dice.png"));
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    
+	   Image imagepanel = img.getScaledInstance(800, 508, Image.SCALE_SMOOTH);
+	   
+	   ImageIcon imageIcon = new ImageIcon(imagepanel);
+	   panel= new JLabel ();
+			
+	   panel.setIcon(imageIcon);
+	   getContentPane().add(panel);
+	  // setLocationRelativeTo(null);
+		
+	   setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		
 		
@@ -177,7 +187,7 @@ public class PigGUI extends JFrame {
 			});
 		
 		Join = new JButton("Join");
-		Join.setBounds(500, 400, 100, 30);
+		Join.setBounds(400, 400, 100, 30);
 		Join.setToolTipText("Join Game");
 		Join.setBackground(Color.WHITE);
 		Join.addActionListener(new ActionListener() {
@@ -220,7 +230,7 @@ public class PigGUI extends JFrame {
 		nameText.setOpaque(true);		
 		nameText.setFont(new Font("SansSerif",Font.BOLD, 15));
 				
-		startButton = new JButton("Start Button");
+		startButton = new JButton("Start");
 		startButton.setBounds(250, 400, 100, 30);
 		startButton.setToolTipText("Lets Begin Game");
 		startButton.addActionListener(new ActionListener() {
@@ -233,7 +243,7 @@ public class PigGUI extends JFrame {
 				});
 				
 		leave = new JButton("Leave");
-		leave.setBounds(350, 400, 100, 30);
+		leave.setBounds(400, 400, 100, 30);
 		leave.setToolTipText("Leave Game");
 		leave.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent event) {
