@@ -39,7 +39,7 @@ public class PigGUI extends JFrame {
 	JButton leave;
 	PigIO IO;
 	PigGUI gui;
-	PigStats pstats=PigStats.getPigStats();
+	PigStats pigStats=PigStats.getPigStats();
 	JLabel nameText;
 	JTextArea textArea;
 	JTextArea statArea;
@@ -70,8 +70,10 @@ public class PigGUI extends JFrame {
 	
 	private void mainn(){
 		//scroll for rule , stats, or userstats
-				
-		
+		/*if(panel !=null){
+				panel.removeAll();
+				getContentPane().removeAll();			
+		}*/
 		setTitle("Pass the Pig");
 		
 		setSize(750, 500);
@@ -161,9 +163,10 @@ public class PigGUI extends JFrame {
 						validate();
 						repaint();
 					}
-					textArea=statText();
+					textArea=statText(statToString(pigStats));
 					scroll=new JScrollPane(textArea);
-					scroll.setBounds(250, 125, 250, 150);
+					//scroll.setBounds(250, 125, 250, 150);// center
+					scroll.setBounds(575, 25, 140, 110);//top right
 					panel.add(scroll);
 					panel.revalidate();
 					validate();
@@ -192,7 +195,7 @@ public class PigGUI extends JFrame {
 		Host.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 					//System.exit(0);
-				   IO = new PigServer(gui,pstats);
+				   IO = new PigServer(gui,pigStats);
 				   
 				   //(PigServer) io).startGame()
 			}
@@ -210,7 +213,7 @@ public class PigGUI extends JFrame {
 					lobby();
 				}
 				lobby();
-				join(pstats);
+				join(pigStats);
 				//System.exit(0);
 				
 				
@@ -249,7 +252,7 @@ public class PigGUI extends JFrame {
 		startButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent event) {
 			
-			   IO = new PigServer(gui,pstats);
+			   IO = new PigServer(gui,pigStats);
 			   System.exit(0);
 			   //(PigServer) io).startGame()k
 				}
@@ -265,6 +268,7 @@ public class PigGUI extends JFrame {
 				leave(0);
 				if(textArea!= null){
 					remove(textArea);
+					
 					panel.revalidate();
 					validate();
 					repaint();
@@ -304,9 +308,9 @@ public class PigGUI extends JFrame {
 		return rules;
 	}
 	
-	private JTextArea statText(){
+	private JTextArea statText(String stats){
 		
-		JTextArea statArea = new JTextArea("Stats");//this will call stateToString()
+		JTextArea statArea = new JTextArea(stats);//this will call stateToString()
 		statArea.setLayout(null);
 		//textArea.setLocation(250, 125);
 		statArea.setEditable(false);
@@ -316,11 +320,12 @@ public class PigGUI extends JFrame {
 		statArea.setBorder(BorderFactory.createLineBorder(Color.red));
 		return statArea;
 	}
-	private String statToString(){
+	private String statToString(PigStats stats){
+			
+		//had to put username first . coudlnt figure it out. 
+		String string=String.format(stats.getUserName()+"\nTotal Score :           %1$d\nAverage Score :     %1$d\n# Games Played : %1$d\n# Games Won :     %1$d\n# Ones Rolled :     %1$d", stats.getTotalScore(),stats.getAverageScore(),stats.getNumGamesPlayed(),stats.getNumGamesWon(),stats.getNumOnesRolled());
 		
-		//ToDo 
-		
-		return null;
+		return string;
 	}
 	
 	private JTextArea ruleText(){
@@ -343,6 +348,14 @@ public class PigGUI extends JFrame {
 	
 	public void disconnect() {
 		//TODO goes back to the main panel
+		panel.removeAll();
+		getContentPane().removeAll();
+		//getContentPane().add(panel);
+		//panel.revalidate();
+		validate();
+		repaint();
+		
+		mainn();
 	}
 	
 	public void setOrder(int [] playerIDs){
@@ -393,10 +406,15 @@ public class PigGUI extends JFrame {
 		}catch (IndexOutOfBoundsException e){
 			
 		}
-		remove(textArea);	
-		panel.revalidate();
-		validate();
-		repaint();
+		//remove(textArea);	
+		//remove(scroll);
+		//panel.remove(scroll);
+		//panel.revalidate();
+		//validate();
+		//repaint();
+		panel.removeAll();
+		getContentPane().removeAll();
+		disconnect();
 	}
 	/**
 	 * 
@@ -455,7 +473,7 @@ public class PigGUI extends JFrame {
 						}
 						textArea=statText(statistics);
 						scroll=new JScrollPane(textArea);
-						scroll.setBounds(575, 25, 140, 100);
+						scroll.setBounds(575, 25, 140, 110);
 						panel.add(scroll);
 						panel.revalidate();
 						validate();
@@ -478,9 +496,8 @@ public class PigGUI extends JFrame {
 			grid=grid+50;
 		}
 		private  JTextArea statText(PigStats stats){
-			//had to put username first . coudlnt figure it out. 
-			String string=String.format(stats.getUserName()+"\nTotal Score :           %1$d\nAverage Score :     %1$d\n# Games Played : %1$d\n# Games Won :     %1$d\n# Ones Rolled :     %1$d", stats.getTotalScore(),stats.getAverageScore(),stats.getNumGamesPlayed(),stats.getNumGamesWon(),stats.getNumOnesRolled());
-			JTextArea statArea = new JTextArea(string);//this will call stateToString()
+			
+			JTextArea statArea = new JTextArea(statToString(stats));//this will call stateToString()
 			statArea.setLayout(null);
 			statArea.setEditable(false);
 			statArea.setLineWrap(true);
