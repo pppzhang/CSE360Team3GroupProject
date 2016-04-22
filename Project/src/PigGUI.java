@@ -247,7 +247,7 @@ public class PigGUI extends JFrame {
 			
 			   IO = new PigServer(gui,pstats);
 			   System.exit(0);
-			   //(PigServer) io).startGame()
+			   //(PigServer) io).startGame()k
 				}
 				});
 				
