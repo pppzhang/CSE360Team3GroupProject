@@ -51,7 +51,7 @@ public class PigGUI extends JFrame {
 	public int grid;
 	
 	/**
-	 * k
+	 * 
 	 */
 	public PigGUI() {
 		//TODO Peng - load stats
@@ -67,6 +67,9 @@ public class PigGUI extends JFrame {
 			
 		
 	}
+	/**\
+	 * this i the first jframe that will display rule button,statbutton,host and join buttons
+	 */
 	
 	private void mainn(){
 		//scroll for rule , stats, or userstats
@@ -286,7 +289,8 @@ public class PigGUI extends JFrame {
 				
 	}
 	/**
-	 * @param playerIDs b
+	 * Returns strings of rules 
+	 * @return string
 	 */
 	public static String rules(){
 		String rules = "Rules\nblah blah balkd alkjalkjdfjAAA"
@@ -307,7 +311,11 @@ public class PigGUI extends JFrame {
 	
 		return rules;
 	}
-	
+	/**
+	 * This will return a JTextArea object with defined attributes 
+	 * @param stats
+	 * @return
+	 */
 	private JTextArea statText(String stats){
 		
 		JTextArea statArea = new JTextArea(stats);//this will call stateToString()
@@ -320,6 +328,11 @@ public class PigGUI extends JFrame {
 		statArea.setBorder(BorderFactory.createLineBorder(Color.red));
 		return statArea;
 	}
+	/**
+	 * Will create a formatted string of stats and then return that string. 
+	 * @param stats
+	 * @return
+	 */
 	private String statToString(PigStats stats){
 			
 		//had to put username first . coudlnt figure it out. 
@@ -327,7 +340,10 @@ public class PigGUI extends JFrame {
 		
 		return string;
 	}
-	
+	/**
+	 * will create JtextArea object will return set text and aligned object 
+	 * @return
+	 */
 	private JTextArea ruleText(){
 		
 		JTextArea	ruleArea = new JTextArea(rules());
@@ -345,13 +361,14 @@ public class PigGUI extends JFrame {
 		return ruleArea;
 	
 	}
-	
+	/**
+	 * This will call mainn() to loop back to first screen
+	 */
 	public void disconnect() {
 		//TODO goes back to the main panel
 		panel.removeAll();
 		getContentPane().removeAll();
-		//getContentPane().add(panel);
-		//panel.revalidate();
+		
 		validate();
 		repaint();
 		
@@ -379,13 +396,13 @@ public class PigGUI extends JFrame {
 		//keep track of each of these (ArrayList<Integer>)
 	}
 	/**
-	 * 
+	 * This will add a new player objecct to arraylist<player . then add last add
+	 * player object to lobby 
 	 * @param stats
 	 */
 	public void join(PigStats stats){
-		//listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
+		
 		playerList.add(new Player(stats));
-		//panel2.add(nameButton);
 		panel.add(playerList.get(playerList.size() - 1).button);//get last added
 		getContentPane().add(panel);
 		panel.revalidate();
@@ -395,7 +412,7 @@ public class PigGUI extends JFrame {
 		
 	}
 	/**
-	 * 
+	 * Will loop back to mainn() 
 	 * @param playerID
 	 */
 	public void leave(int playerID){
@@ -406,12 +423,7 @@ public class PigGUI extends JFrame {
 		}catch (IndexOutOfBoundsException e){
 			
 		}
-		//remove(textArea);	
-		//remove(scroll);
-		//panel.remove(scroll);
-		//panel.revalidate();
-		//validate();
-		//repaint();
+		
 		panel.removeAll();
 		getContentPane().removeAll();
 		disconnect();
@@ -446,6 +458,12 @@ public class PigGUI extends JFrame {
 			}
 		});
 	}
+	/**
+	 * 
+	 * @author Philllip Reyes
+	 * This class is used to have a list of buttons of player class.
+	 *  will have stats and buttton with action listener
+	 */
 	public class Player {
 		PigStats statistics;
 		JButton button;
@@ -494,10 +512,15 @@ public class PigGUI extends JFrame {
 				}
 				});
 			grid=grid+50;
-		}
+		} 
+		/**
+		 *  This will display the stats via aformmatted string
+		 * @param stats
+		 * @return
+		 */
 		private  JTextArea statText(PigStats stats){
 			
-			JTextArea statArea = new JTextArea(statToString(stats));//this will call stateToString()
+			JTextArea statArea = new JTextArea(statToString(stats));//this will call stateToString() return formatted stats
 			statArea.setLayout(null);
 			statArea.setEditable(false);
 			statArea.setLineWrap(true);
