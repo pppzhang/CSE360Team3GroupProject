@@ -24,7 +24,7 @@ public class TestStatsGUI {
 	/**
 	 * Launch the application.
 	 */
-	public static void tempmain(String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
