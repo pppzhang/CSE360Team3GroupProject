@@ -233,7 +233,7 @@ public class PigGUI extends JFrame {
 		
 		nameText = new JLabel("Players In Lobby: ");
 		nameText.setHorizontalAlignment(JTextField.CENTER);
-		nameText .setBounds(50,50, 150, 75);
+		nameText .setBounds(25,25, 150, 75);
 		nameText.setForeground(Color.WHITE);
 
 		nameText.setFont(new Font("SansSerif",Font.BOLD, 15));
@@ -451,8 +451,8 @@ public class PigGUI extends JFrame {
 						}
 						textArea=statText(statistics);
 						scroll=new JScrollPane(textArea);
-						scroll.setBounds(250, 125, 250, 150);
-						panel.add(textArea);
+						scroll.setBounds(575, 25, 140, 100);
+						panel.add(scroll);
 						panel.revalidate();
 						validate();
 						repaint();
@@ -473,13 +473,14 @@ public class PigGUI extends JFrame {
 				});
 		}
 		private  JTextArea statText(PigStats stats){
-			
-			JTextArea statArea = new JTextArea("Stats");//this will call stateToString()
+			//had to put username first . coudlnt figure it out. 
+			String string=String.format(stats.getUserName()+"\nTotal Score :           %1$d\nAverage Score :     %1$d\n# Games Played : %1$d\n# Games Won :     %1$d\n# Ones Rolled :     %1$d", stats.getTotalScore(),stats.getAverageScore(),stats.getNumGamesPlayed(),stats.getNumGamesWon(),stats.getNumOnesRolled());
+			JTextArea statArea = new JTextArea(string);//this will call stateToString()
 			statArea.setLayout(null);
 			statArea.setEditable(false);
 			statArea.setLineWrap(true);
 			statArea.setWrapStyleWord(true);
-			statArea.setBounds(250, 125, 250, 250);
+			//statArea.setBounds(250, 125, 250, 250);
 			statArea.setBorder(BorderFactory.createLineBorder(Color.red));
 			
 			return statArea;
