@@ -58,7 +58,7 @@ public class PigStats {
 	 * method to get PigStats, search .sav file first, if not found get user name and initialize a new one
 	 * @return PigStats
 	 */
-	static public PigStats getPigStats() {
+	public static PigStats getPigStats() {
 		PigStats player;
 		
 		//load from file (using FileInputStream/ObjectInputStream and explicit casting readObject to PigStats)
@@ -79,7 +79,7 @@ public class PigStats {
 				ObjectInputStream read = new ObjectInputStream (readFile);				
 
 				int ptotalScore = (int)read.readObject();
-				double paverageScore = (int)read.readObject();
+				double paverageScore = (double)read.readObject();
 				int pnumGamesPlayed = (int)read.readObject();
 				int pnumGamesWon = (int)read.readObject();
 				int pnumOnesRolled = (int)read.readObject();	
@@ -90,10 +90,10 @@ public class PigStats {
 				
 			} catch (Exception e){
 				e.printStackTrace();
-			}
-			
-			//if error loading file:
-			player= new PigStats();
+				//if error loading file:
+				player= new PigStats();
+			}			
+
 		}
 		//if no .sav file exists:
 		else {
