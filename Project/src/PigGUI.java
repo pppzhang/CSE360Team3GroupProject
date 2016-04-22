@@ -280,7 +280,8 @@ public class PigGUI extends JFrame {
 		});
 						
 		panel.add(nameText);
-		panel.add(startButton);
+		//if (IO instanceof PigServer)
+			panel.add(startButton);
 		panel.add(leave);
 		getContentPane().add(panel);
 		panel.revalidate();
@@ -293,21 +294,12 @@ public class PigGUI extends JFrame {
 	 * @return string
 	 */
 	public static String rules(){
-		String rules = "Rules\nblah blah balkd alkjalkjdfjAAA"
-				+ "aldkfjadlfjad"
-				+ "\nladjfladfja"
-				+ "\n"
-				+ "aldfjkaldkfjal"
-				+ "lakjdflajkf"
-				+ "\n"
-				+ "\n"
-				+ ""
-				+ "\n"
-				+ "lajkdfalfjadfjal;dkfjalfja"
-				+ "aldfjl;akj"
-				+ "alfjkaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-				+ "AAAAAAAAalkajdfkladjfa alkfjakjfalk";
+		String rules = "Rules\n"
+				+ "Players take turns. "
+				+ "On your turn, you roll the die. "
+				+ "After each roll, you decide to either pass or roll again. "
+				+ "If you roll a 1 you must pass the die and you score 0. "
+				+ "If you choose to pass the die, you score the sum of your rolls and end your turn.";
 	
 		return rules;
 	}
@@ -336,7 +328,7 @@ public class PigGUI extends JFrame {
 	private String statToString(PigStats stats){
 			
 		//had to put username first . coudlnt figure it out. 
-		String string=String.format(stats.getUserName()+"\nTotal Score :           %1$d\nAverage Score :     %1$d\n# Games Played : %1$d\n# Games Won :     %1$d\n# Ones Rolled :     %1$d", stats.getTotalScore(),stats.getAverageScore(),stats.getNumGamesPlayed(),stats.getNumGamesWon(),stats.getNumOnesRolled());
+		String string=String.format(stats.getUserName()+"\nTotal Score :          %1$d\nAverage Score :     %1$d\n# Games Played : %1$d\n# Games Won :     %1$d\n# Ones Rolled :     %1$d", stats.getTotalScore(),stats.getAverageScore(),stats.getNumGamesPlayed(),stats.getNumGamesWon(),stats.getNumOnesRolled());
 		
 		return string;
 	}
@@ -396,7 +388,7 @@ public class PigGUI extends JFrame {
 		//keep track of each of these (ArrayList<Integer>)
 	}
 	/**
-	 * This will add a new player objecct to arraylist<player . then add last add
+	 * This will add a new player object to arraylist<player . then add last add
 	 * player object to lobby 
 	 * @param stats
 	 */
@@ -412,7 +404,7 @@ public class PigGUI extends JFrame {
 		
 	}
 	/**
-	 * Will loop back to mainn() 
+	 * If another player leaves 
 	 * @param playerID
 	 */
 	public void leave(int playerID){
@@ -426,7 +418,8 @@ public class PigGUI extends JFrame {
 		
 		panel.removeAll();
 		getContentPane().removeAll();
-		disconnect();
+		validate();
+		repaint();
 	}
 	/**
 	 * 
