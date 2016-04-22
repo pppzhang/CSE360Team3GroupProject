@@ -2,9 +2,10 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+
 
 import javax.swing.JOptionPane;
 
@@ -20,7 +21,10 @@ public class PigStats {
 	private int numGamesPlayed;
 	private int numGamesWon;
 	private int numOnesRolled;
-
+	
+	/**
+	 * Constructor for new player, get user name input and initialize variables
+	 */
 	private PigStats() {
 		username = JOptionPane.showInputDialog("Enter your username: ");
 		//instantiate other instance variables
@@ -31,6 +35,15 @@ public class PigStats {
 		numOnesRolled = 0;		
 	}
 	
+	/**
+	 * Constructor for existing player whose stats were stored in a .passthepig.sav file.
+	 * @param username
+	 * @param totalScore
+	 * @param averageScore
+	 * @param numGamesPlayed
+	 * @param numGamesWon
+	 * @param numOnesRolled
+	 */
 	private PigStats(String username, int totalScore, double averageScore, int numGamesPlayed, int numGamesWon, int numOnesRolled) {
 		this.username = username;
 		this.totalScore = totalScore;
@@ -41,18 +54,30 @@ public class PigStats {
 		
 	}
 	
-	
+	/**
+	 * method to get PigStats, search .sav file first, if not found get user name and initialize a new one
+	 * @return PigStats
+	 */
 	static public PigStats getPigStats() {
 		PigStats player;
 		
 		//load from file (using FileInputStream/ObjectInputStream and explicit casting readObject to PigStats)
-		File f = new File("*.sav");
-		if(f.exists()) {
-			try {
-				FileInputStream readFile = new FileInputStream("*.sav");
-				ObjectInputStream read = new ObjectInputStream (readFile);
+		
+		File dir = new File(".");	//set current directory for search
+		File savFile[] = dir.listFiles(new FilenameFilter(){
+			public boolean accept(File dir, String filename) {
+				return filename.endsWith(".passthepig.sav");
+			}
+		});
+		
 				
-				String pusername = (String) f.getName();
+		if(savFile.length>0) {
+			String filename = savFile[0].getName();		// the first .passthepig.sav file is assumed to be one that storing game stats
+			String pusername = filename.substring(0,filename.length()-15);
+			try {
+				FileInputStream readFile = new FileInputStream(filename);
+				ObjectInputStream read = new ObjectInputStream (readFile);				
+
 				int ptotalScore = (int)read.readObject();
 				double paverageScore = (int)read.readObject();
 				int pnumGamesPlayed = (int)read.readObject();
@@ -79,7 +104,7 @@ public class PigStats {
 	}
 	
 	/**
-	 * 
+	 * save roll results
 	 * @param rolls The die values of the player's rolls.
 	 * @param winner Did the player win?
 	 */
@@ -104,7 +129,7 @@ public class PigStats {
 			numGamesWon ++;
 		
 		try {
-			FileOutputStream saveFile = new FileOutputStream(username+".sav");
+			FileOutputStream saveFile = new FileOutputStream(username+".passthepig.sav");
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
 			
 			save.writeObject(totalScore);
@@ -112,32 +137,57 @@ public class PigStats {
 			save.writeObject(numGamesPlayed);
 			save.writeObject(numGamesWon);
 			save.writeObject(numOnesRolled);
+			
+			save.close();
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	//PENG: we need one of these for all the existing instance variables.
+	/**
+	 * Get user name
+	 * @return
+	 */
 	public String getUserName(){		
 		return username;		
 	}
 	
+	/**
+	 * Get totalScore
+	 * @return
+	 */
 	public int getTotalScore() {
 		return totalScore;
 	}
 	
+	/**
+	 * Get averageScore 
+	 * @return
+	 */
 	public double getAverageScore() {
 		return averageScore;
 	}
 	
+	/**
+	 * Get number of games played
+	 * @return
+	 */
 	public int getNumGamesPlayed() {
 		return numGamesPlayed;
 	}
 	
+	/**
+	 * Get number of games won
+	 * @return
+	 */
 	public int getNumGamesWon() {
 		return numGamesWon;
 	}
 	
+	/**
+	 * Get number of ones rolled
+	 * @return
+	 */
 	public int getNumOnesRolled() {
 		return numOnesRolled;
 	}
