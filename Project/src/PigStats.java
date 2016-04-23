@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -108,16 +110,16 @@ public class PigStats {
 	 * @param rolls The die values of the player's rolls.
 	 * @param winner Did the player win?
 	 */
-	public void save(int rolls[], boolean winner) {
+	public void save(ArrayList<Integer> rolls, boolean winner) {
 		//update instance variables with new data and save to file (create file if cannot find find)
-		int rollSize = rolls.length;
+		int rollSize = rolls.size();
 		
-		if (rolls[rollSize-1] == 1) {
+		if (rolls.get(rollSize - 1) == 1) {
 			numOnesRolled++;			
 		}
 		else {
 			for (int i=0; i<rollSize; i++) {
-				totalScore = totalScore + rolls[i];
+				totalScore = totalScore + rolls.get(i);
 			}
 		}
 

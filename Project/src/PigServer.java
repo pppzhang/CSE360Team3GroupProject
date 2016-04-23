@@ -32,6 +32,7 @@ public class PigServer implements PigIO {
 		lobby.start();
 		clients = new ArrayList<Player>();
 		clients.add(new Player(stats));
+		gui.join(stats);
 	}
 
 	/*
@@ -45,10 +46,13 @@ public class PigServer implements PigIO {
 	
 	@Override
 	public void exit() {
+		lobby.running = false;
+		lobby.close();
 		for (Player p : clients) {
 			p.close();
 		}
 		clients.removeAll(clients);
+		gui.disconnect();
 	}
 
 	/**
@@ -56,9 +60,9 @@ public class PigServer implements PigIO {
 	 */
 	public void startGame() {
 		lobby.running = false;
-		lobby.interrupt();
+		lobby.close();
 		engine = new PigEngine(this, clients.size());
-		//engine.start();
+		engine.start();
 	}
 	
 	/*
@@ -88,6 +92,10 @@ public class PigServer implements PigIO {
 				} catch (Exception e) {
 				}
 			}
+			close();
+		}
+			
+		public void close() {
 			try {
 				server.close();
 			} catch (IOException e) {
@@ -172,15 +180,15 @@ public class PigServer implements PigIO {
 			running = false;
 			try {
 				output.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 			}
 			try {
 				input.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 			}
 			try {
 				socket.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 			}
 		}
 	}
@@ -215,14 +223,19 @@ public class PigServer implements PigIO {
 		switch (msg.command) {
 		case PLAYER_JOINED:
 			gui.join(msg.stats);
+			break;
 		case PLAYER_LEFT:
 			gui.leave(msg.args[0]);
+			break;
 		case SET_TURN:
 			gui.setTurn(msg.args[0]);
+			break;
 		case SET_ORDER:
 			gui.setOrder(msg.args);
+			break;
 		case OTHER_ROLL:
 			gui.rollOther(msg.args[0], msg.args[1]);
+			break;
 		case SELF_ROLL:
 			gui.roll(msg.args[0]);
 		}
