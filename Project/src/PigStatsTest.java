@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -89,7 +90,11 @@ public class PigStatsTest {
 		
 		//step 3: save a roll result and not-won case
 		PigStats player = PigStats.getPigStats();
-		int[] rolls = {4,2,3,6};
+		ArrayList<Integer> rolls = new ArrayList<Integer>();
+		rolls.add(4);
+		rolls.add(2);
+		rolls.add(3);
+		rolls.add(6);
 		player.save(rolls, false);
 		
 		//step 4: check the result
@@ -98,39 +103,260 @@ public class PigStatsTest {
 		assertEquals(player.getNumGamesPlayed(),1);
 		assertEquals(player.getNumGamesWon(),0);
 		assertEquals(player.getNumOnesRolled(),0);
+		
+		//step 5: save roll results ended with one
+		rolls.clear();
+		rolls.add(5);
+		rolls.add(1);
+		player.save(rolls, false);
+		
+		//step 6: check the result
+		assertEquals(player.getTotalScore(),15);
+		assertEquals(player.getAverageScore(),7.5,0.001);
+		assertEquals(player.getNumGamesPlayed(),2);
+		assertEquals(player.getNumGamesWon(),0);
+		assertEquals(player.getNumOnesRolled(),1);
 	
 	}
 
 	@Test
 	public void testGetUserName() {
+		//create a user profile and load it, save roll/winner results and test
+		// step 1: remove all .passthepig.sav files
+		File dir = new File("."); 	
+		File savFile[] = dir.listFiles(new FilenameFilter(){
+			public boolean accept(File dir, String filename) {
+				return filename.endsWith(".passthepig.sav");
+			}
+		});
+		for (int i=0; i<savFile.length; i++)
+			savFile[i].delete();
 		
+		// step 2: create a profile for Tom
+		try {
+			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
+			ObjectOutputStream save = new ObjectOutputStream(saveFile);
+			save.writeObject(0); //total score
+			save.writeObject(0.0);//average score
+			save.writeObject(0); //number of games played
+			save.writeObject(0);	//number of games won
+			save.writeObject(0); 	// number of ones rolled			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		fail("Not yet implemented");
+		//step 3: save a roll result and not-won case
+		PigStats player = PigStats.getPigStats();
+		ArrayList<Integer> rolls = new ArrayList<Integer>();
+		rolls.add(4);
+		rolls.add(2);
+		rolls.add(3);
+		rolls.add(6);
+		player.save(rolls, false);
+		
+		//step 4: check the result		
+		assertEquals(player.getUserName(),"Tom");
 	}
 
 	@Test
 	public void testGetTotalScore() {
-		fail("Not yet implemented");
+		//create a user profile and load it, save roll/winner results and test
+		// step 1: remove all .passthepig.sav files
+		File dir = new File("."); 	
+		File savFile[] = dir.listFiles(new FilenameFilter(){
+			public boolean accept(File dir, String filename) {
+				return filename.endsWith(".passthepig.sav");
+			}
+		});
+		for (int i=0; i<savFile.length; i++)
+			savFile[i].delete();
+		
+		// step 2: create a profile for Tom
+		try {
+			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
+			ObjectOutputStream save = new ObjectOutputStream(saveFile);
+			save.writeObject(0); //total score
+			save.writeObject(0.0);//average score
+			save.writeObject(0); //number of games played
+			save.writeObject(0);	//number of games won
+			save.writeObject(0); 	// number of ones rolled			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//step 3: save a roll result and not-won case
+		PigStats player = PigStats.getPigStats();
+		ArrayList<Integer> rolls = new ArrayList<Integer>();
+		rolls.add(4);
+		rolls.add(2);
+		rolls.add(3);
+		rolls.add(6);
+		player.save(rolls, false);
+		
+		//step 4: check the result
+		assertEquals(player.getTotalScore(),15);
 	}
 
 	@Test
 	public void testGetAverageScore() {
-		fail("Not yet implemented");
+		//create a user profile and load it, save roll/winner results and test
+		// step 1: remove all .passthepig.sav files
+		File dir = new File("."); 	
+		File savFile[] = dir.listFiles(new FilenameFilter(){
+			public boolean accept(File dir, String filename) {
+				return filename.endsWith(".passthepig.sav");
+			}
+		});
+		for (int i=0; i<savFile.length; i++)
+			savFile[i].delete();
+		
+		// step 2: create a profile for Tom
+		try {
+			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
+			ObjectOutputStream save = new ObjectOutputStream(saveFile);
+			save.writeObject(0); //total score
+			save.writeObject(0.0);//average score
+			save.writeObject(0); //number of games played
+			save.writeObject(0);	//number of games won
+			save.writeObject(0); 	// number of ones rolled			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//step 3: save a roll result and not-won case
+		PigStats player = PigStats.getPigStats();
+		ArrayList<Integer> rolls = new ArrayList<Integer>();
+		rolls.add(4);
+		rolls.add(2);
+		rolls.add(3);
+		rolls.add(6);
+		player.save(rolls, false);
+		
+		//step 4: check the result
+		assertEquals(player.getAverageScore(),15.0,0.001);
 	}
 
 	@Test
 	public void testGetNumGamesPlayed() {
-		fail("Not yet implemented");
+		//create a user profile and load it, save roll/winner results and test
+		// step 1: remove all .passthepig.sav files
+		File dir = new File("."); 	
+		File savFile[] = dir.listFiles(new FilenameFilter(){
+			public boolean accept(File dir, String filename) {
+				return filename.endsWith(".passthepig.sav");
+			}
+		});
+		for (int i=0; i<savFile.length; i++)
+			savFile[i].delete();
+		
+		// step 2: create a profile for Tom
+		try {
+			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
+			ObjectOutputStream save = new ObjectOutputStream(saveFile);
+			save.writeObject(0); //total score
+			save.writeObject(0.0);//average score
+			save.writeObject(0); //number of games played
+			save.writeObject(0);	//number of games won
+			save.writeObject(0); 	// number of ones rolled			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//step 3: save a roll result and not-won case
+		PigStats player = PigStats.getPigStats();
+		ArrayList<Integer> rolls = new ArrayList<Integer>();
+		rolls.add(4);
+		rolls.add(2);
+		rolls.add(3);
+		rolls.add(6);
+		player.save(rolls, false);
+		
+		//step 4: check the result
+		assertEquals(player.getNumGamesPlayed(),1);
 	}
 
 	@Test
 	public void testGetNumGamesWon() {
-		fail("Not yet implemented");
+		//create a user profile and load it, save roll/winner results and test
+		// step 1: remove all .passthepig.sav files
+		File dir = new File("."); 	
+		File savFile[] = dir.listFiles(new FilenameFilter(){
+			public boolean accept(File dir, String filename) {
+				return filename.endsWith(".passthepig.sav");
+			}
+		});
+		for (int i=0; i<savFile.length; i++)
+			savFile[i].delete();
+		
+		// step 2: create a profile for Tom
+		try {
+			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
+			ObjectOutputStream save = new ObjectOutputStream(saveFile);
+			save.writeObject(0); //total score
+			save.writeObject(0.0);//average score
+			save.writeObject(0); //number of games played
+			save.writeObject(0);	//number of games won
+			save.writeObject(0); 	// number of ones rolled			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//step 3: save a roll result and not-won case
+		PigStats player = PigStats.getPigStats();
+		ArrayList<Integer> rolls = new ArrayList<Integer>();
+		rolls.add(4);
+		rolls.add(2);
+		rolls.add(3);
+		rolls.add(6);
+		player.save(rolls, false);
+		
+		//step 4: check the result
+		assertEquals(player.getNumGamesWon(),0);
 	}
 
 	@Test
 	public void testGetNumOnesRolled() {
-		fail("Not yet implemented");
+		//create a user profile and load it, save roll/winner results and test
+		// step 1: remove all .passthepig.sav files
+		File dir = new File("."); 	
+		File savFile[] = dir.listFiles(new FilenameFilter(){
+			public boolean accept(File dir, String filename) {
+				return filename.endsWith(".passthepig.sav");
+			}
+		});
+		for (int i=0; i<savFile.length; i++)
+			savFile[i].delete();
+		
+		// step 2: create a profile for Tom
+		try {
+			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
+			ObjectOutputStream save = new ObjectOutputStream(saveFile);
+			save.writeObject(0); //total score
+			save.writeObject(0.0);//average score
+			save.writeObject(0); //number of games played
+			save.writeObject(0);	//number of games won
+			save.writeObject(0); 	// number of ones rolled			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//step 3: save a roll result and not-won case
+		PigStats player = PigStats.getPigStats();
+		ArrayList<Integer> rolls = new ArrayList<Integer>();
+		rolls.add(4);
+		rolls.add(2);
+		rolls.add(3);
+		rolls.add(6);
+		player.save(rolls, false);
+		
+		//step 4: check the result
+		assertEquals(player.getNumOnesRolled(),0);
 	}
 
 }
