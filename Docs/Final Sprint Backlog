@@ -1,0 +1,12 @@
+Remove the item from this list when you decide to work on it.
+There are "//TODO"s for most of these
+
+PigEngine - Shuffle player order (create int[] containing 0 through n-1 nonrepeating in a random order)
+PigGUI - Make player namecards load dynamically (using boxlayout probably, instead of using the "grid" variable)
+PigGUI - Make setOrder() remove player namecards and put them back in the given order.
+PigGUI - Improve display of roll record (the lists of what each player rolled)
+PigGUI - Create roll animation of some sort. 3D or 2D. (not imperative, kind of optional)
+
+TESTING
+- Test multiplayer
+- create JUnitTest test classes for each component as applicable
