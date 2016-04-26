@@ -1,4 +1,3 @@
-Remove the item from this list when you decide to work on it.
 There are "//TODO"s for most of these
 
 PigGUI - Make player namecards load dynamically (using boxlayout probably, instead of using the "grid" variable)
@@ -10,5 +9,9 @@ TESTING
 - Test multiplayer
 - create JUnitTest test classes for each component as applicable
 
+OTHER:
+From announcement - "Please include a file that has each team member's name and their associated GitHub ID."
+
+IN PROGRESS:
 Priyanka : PigEngine - Shuffle player order (create int[] containing 0 through n-1 nonrepeating in a random order)
 
