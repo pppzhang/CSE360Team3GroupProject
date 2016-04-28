@@ -12,9 +12,6 @@ public class PigEngine extends Thread {
 	private ArrayList<ArrayList<Integer>> rolls;
 	
 	public PigEngine(PigServer server, int numPlayers) {
-		// TODO Engine
-		//"test"
-		//all the things
 		rolls = new ArrayList<ArrayList<Integer>>();
 		for (int i = 0; i < numPlayers; i++) rolls.add(new ArrayList<Integer>());
 		this.server = server;
