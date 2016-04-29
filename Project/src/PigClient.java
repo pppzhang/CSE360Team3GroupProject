@@ -15,6 +15,14 @@ public class PigClient extends Thread implements PigIO {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param gui the associated GUI
+	 * @param stats	the player's statistics
+	 * @param socket server address
+	 * @throws IOException
+	 */
 	private PigClient(PigGUI gui, PigStats stats, Socket socket) throws IOException {
 		this.gui = gui;
 		this.socket = socket;
@@ -53,9 +61,10 @@ public class PigClient extends Thread implements PigIO {
 		}
 	}
 	
-	/*
+	/**
 	 * Takes a message and calls the requested actions.
 	 * if you change this, change PigServer.clientParse() as well.
+	 * @param msg the requested action
 	 */
 	private void parse(PigMsg msg) {
 		switch (msg.command) {
@@ -74,6 +83,10 @@ public class PigClient extends Thread implements PigIO {
 		}
 	}
 	
+	/**
+	 * Allows additional rolls on the same player's turn.
+	 * @param choice	player's choice to roll again yes/no.
+	 */
 	@Override
 	public void rollAgain(boolean choice) {
 		try {
