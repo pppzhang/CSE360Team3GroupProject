@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PigEngine extends Thread {
 
+	
 	private PigServer server;
 	private int numPlayers;
 	private boolean rollAgainChoice;
@@ -19,9 +20,26 @@ public class PigEngine extends Thread {
 	}
 	
 
+	
 	public void run() {
 		Random rgen = new Random();
 		//TODO shuffle order
+		
+		int ar[] = new int[numPlayers];
+		for(int i = 0;i<numPlayers;i++)
+		{
+			ar[i] = i;
+		}
+		
+		Random rnd = ThreadLocalRandom.current();
+	    for (int i = numPlayers-1; i > 0; i--)
+	    {
+	      int index = rnd.nextInt(i + 1);
+	      int a = ar[index];
+	      ar[index] = ar[i];
+	      ar[i] = a;
+	    }
+		
 		server.setOrder(new int[numPlayers]);
 		
 		for (activePlayer = 0; activePlayer < numPlayers; activePlayer++)
