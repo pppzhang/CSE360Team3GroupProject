@@ -39,6 +39,7 @@ public class PigGUI extends JFrame {
 	JButton leave;
 	JButton pass;
 	JButton rollAgain;
+	JLabel dieLabel;	// declare dice image label, revise if needed - Peng
 	
 	PigIO IO;
 	PigGUI gui;
@@ -405,8 +406,15 @@ public class PigGUI extends JFrame {
 		rollAgain.setEnabled(false);
 		pass.setEnabled(false);
 		
+		// the three lines below add die image to panel, revise it if needed - Peng
+		dieLabel = new JLabel("");
+		dieLabel.setIcon(new ImageIcon("img/1.png"));
+		dieLabel.setBounds(300, 100, 220, 220);
+		
+		
 		panel.add(pass);
 		panel.add(rollAgain);
+		panel.add(dieLabel);	// add to panel - Peng
 		refresh();
 		//TODO remove namecards and re-add in this order
 	}
@@ -428,6 +436,10 @@ public class PigGUI extends JFrame {
 	 * @param newValue
 	 */
 	public void roll(int newValue){
+		// the two lines below change die image based on roll result, revise it if needed - Peng
+		dieLabel.setIcon(new ImageIcon("img/"+newValue+".png"));
+		panel.repaint();
+		
 		if (newValue == 1) {
 			playerList.get(myPlayerID).score = 0;
 		} else {
