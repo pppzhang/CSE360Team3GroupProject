@@ -1,10 +1,6 @@
-
 /**
- * 
  * @author  Phill Reyes, Nathan Sears
- *
  */
-
 
 import java.awt.event.*;
 import java.awt.*;
