@@ -3,50 +3,60 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PigEngine extends Thread {
-
+	/**
+	 * author : Priyanka Pakhale , Nathan Sears
+	 */
 	
 	private PigServer server;
 	private int numPlayers;
 	private boolean rollAgainChoice;
 	private boolean chosen;
 	private int activePlayer;
+	private int playerIDs[];
 	private ArrayList<ArrayList<Integer>> rolls;
 	
+	/** 
+	 * Constructor of PigEngine
+	 * @param : object of server
+	 * @param : numPlayers - Total number of active players
+	 */
 	public PigEngine(PigServer server, int numPlayers) {
 		rolls = new ArrayList<ArrayList<Integer>>();
 		for (int i = 0; i < numPlayers; i++) rolls.add(new ArrayList<Integer>());
 		this.server = server;
 		this.numPlayers = numPlayers;
+		playerIDs = new int[numPlayers;]
 	}
 	
 
-	
+	/** 
+	 * creates random order of player IDs
+	 * 
+	 */
 	public void run() {
 		Random rgen = new Random();
-		//TODO shuffle order
-		
-		int ar[] = new int[numPlayers];
+		// shuffle order
 		for(int i = 0;i<numPlayers;i++)
 		{
-			ar[i] = i;
+			playerIDs[i] = i;
 		}
-		
 		Random rnd = ThreadLocalRandom.current();
 	    for (int i = numPlayers-1; i > 0; i--)
 	    {
 	      int index = rnd.nextInt(i + 1);
-	      int a = ar[index];
-	      ar[index] = ar[i];
-	      ar[i] = a;
+	      int a = playerIDs[index];
+	      playerIDs[index] = playerIDs[i];
+	      playerIDs[i] = a;
 	    }
 		
-		server.setOrder(new int[numPlayers]);
+		
+		server.setOrder(playerIDs);
 		
 		for (activePlayer = 0; activePlayer < numPlayers; activePlayer++)
 		{
-			server.setTurn(activePlayer);
+			server.setTurn(playerIDs[activePlayer]);
 			rollAgainChoice = true;
-			ArrayList<Integer> thisRolls = rolls.get(activePlayer);
+			ArrayList<Integer> thisRolls = rolls.get(playerIDs[activePlayer]);
 			while (rollAgainChoice) {
 				rollAgainChoice = true;
 				chosen = false;
@@ -76,8 +86,12 @@ public class PigEngine extends Thread {
 		server.setTurn(-1);
 	}
 	
+	/**
+	 * @param playerID - Id of the player
+	 * @param choice - player's choice (roll again or not)
+	 */
 	public void rollAgain(int playerID, boolean choice) {
-		if (activePlayer == playerID) {
+		if (playerIDs[activePlayer] == playerID) {
 			rollAgainChoice = choice;
 			chosen = true;
 		}
