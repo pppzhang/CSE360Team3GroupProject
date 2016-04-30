@@ -17,7 +17,7 @@ public class PigEngine extends Thread {
 	
 	/** 
 	 * Constructor of PigEngine
-	 * @param : object of server
+	 * @param : server - object of server
 	 * @param : numPlayers - Total number of active players
 	 */
 	public PigEngine(PigServer server, int numPlayers) {
@@ -25,13 +25,12 @@ public class PigEngine extends Thread {
 		for (int i = 0; i < numPlayers; i++) rolls.add(new ArrayList<Integer>());
 		this.server = server;
 		this.numPlayers = numPlayers;
-		playerIDs = new int[numPlayers;]
+		playerIDs = new int[numPlayers];
 	}
 	
 
 	/** 
-	 * creates random order of player IDs
-	 * 
+	 * Creates random order of player IDs
 	 */
 	public void run() {
 		Random rgen = new Random();
@@ -48,7 +47,6 @@ public class PigEngine extends Thread {
 	      playerIDs[index] = playerIDs[i];
 	      playerIDs[i] = a;
 	    }
-		
 		
 		server.setOrder(playerIDs);
 		
@@ -75,6 +73,7 @@ public class PigEngine extends Thread {
 				}
 			}
 		}
+		
 		int[] lastValues = new int[numPlayers];
 		for (int i = 0; i < numPlayers; i++) lastValues[i] = rolls.get(i).get(rolls.get(i).size() - 1);
 		server.reveal(lastValues);
