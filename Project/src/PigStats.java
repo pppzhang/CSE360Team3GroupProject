@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,10 +11,10 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
- * PigStats store player statistics and send player statistics to other classes upon request. 
+ * PigStats stores player statistics and sends player statistics to other classes upon request. 
  * @author Peng Zhang
- *
  */
+
 public class PigStats {
 	private String username;
 	private int totalScore;
@@ -73,7 +72,7 @@ public class PigStats {
 		});
 		
 				
-		if(savFile.length>0) {
+		if(savFile.length > 0) {
 			String filename = savFile[0].getName();		// the first .passthepig.sav file is assumed to be one that storing game stats
 			String pusername = filename.substring(0,filename.length()-15);
 			try {

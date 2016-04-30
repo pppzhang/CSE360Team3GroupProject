@@ -7,6 +7,10 @@ import javax.swing.JOptionPane;
 
 import org.junit.Test;
 
+/**
+ * PigStatsTest JUnit testing for all facets of our statistics
+ * @author Peng Zhang, Phill Reyes, Nathan Sears
+ */
 
 public class PigStatsTest {	
 

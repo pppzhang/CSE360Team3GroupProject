@@ -1,9 +1,10 @@
 import java.io.Serializable;
 
 /**
+ * PigIO handles input and output between players
  * @author Nathan Sears
- *
  */
+
 public interface PigIO {
 	
 	public static final int PORT = 9898;

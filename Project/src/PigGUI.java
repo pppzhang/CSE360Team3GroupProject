@@ -1,7 +1,3 @@
-/**
- * @author  Phill Reyes, Nathan Sears
- */
-
 import java.awt.event.*;
 import java.awt.*;
 import java.text.*;
@@ -18,6 +14,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 import java.net.URL;
+
+/**
+ * PigGUI creates and controls the game window and elements within
+ * @author  Phill Reyes, Nathan Sears
+ */
+
 public class PigGUI extends JFrame {
 	
 	//String[] stats;
@@ -98,7 +100,7 @@ public class PigGUI extends JFrame {
 	   getContentPane().removeAll();
 	   panel.setIcon(imageIcon);
 	   getContentPane().add(panel);
-	  // setLocationRelativeTo(null);
+	   // setLocationRelativeTo(null);
 		
 	   setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -318,13 +320,13 @@ public class PigGUI extends JFrame {
 	 */
 	private String statToString(PigStats stats){
 			
-		//had to put username first . coudlnt figure it out. 
-		String string= "" + stats.getUserName()
-				+ "\nTotal Score :          " + stats.getTotalScore() 
-				+ "\nAverage Score :     " + ((double)((int)(stats.getAverageScore()*100)))/100.0
-				+ "\n# Games Played : " + stats.getNumGamesPlayed() 
-				+ "\n# Games Won :     " +  stats.getNumGamesWon()
-				+ "\n# Ones Rolled :     " + stats.getNumOnesRolled();
+		//had to put username first, couldn't figure it out. 
+		String string = "" + stats.getUserName()
+				+ "\nTotal Score :          " 	+ stats.getTotalScore() 
+				+ "\nAverage Score :     " 		+ ((double)((int)(stats.getAverageScore()*100)))/100.0
+				+ "\n# Games Played : " 		+ stats.getNumGamesPlayed() 
+				+ "\n# Games Won :     " 		+ stats.getNumGamesWon()
+				+ "\n# Ones Rolled :     " 		+ stats.getNumOnesRolled();
 		
 		return string;
 	}
@@ -428,7 +430,7 @@ public class PigGUI extends JFrame {
 	 */
 	public void roll(int newValue){
 		// the two lines below change die image based on roll result, revise it if needed - Peng
-		dieLabel.setIcon(new ImageIcon("img/"+newValue+".png"));
+		dieLabel.setIcon(new ImageIcon("img/" + newValue + ".png"));
 		panel.repaint();
 		
 		if (newValue == 1) {
@@ -553,8 +555,8 @@ public class PigGUI extends JFrame {
 			rollsLab.setBounds(140, grid, 300, 40);
 			panel.add(rollsLab);
 			this.statistics = stats;
-			statArea=statText(stats);
-			button= new JButton(stats.getUserName());
+			statArea = statText(stats);
+			button = new JButton(stats.getUserName());
 			button.setBounds(35, grid, 100, 40);
 			button.setToolTipText("Get Player Stats");
 			button.setBackground(Color.WHITE);
@@ -564,7 +566,7 @@ public class PigGUI extends JFrame {
 					//TODO display stats
 					if (toggle1 % 2 == 0){
 						//ruleText();
-						if(textArea!= null){
+						if(textArea != null){
 							panel.remove(scroll);
 							panel.remove(textArea);
 							panel.revalidate();
@@ -591,7 +593,7 @@ public class PigGUI extends JFrame {
 					}
 				}
 				});
-			grid=grid+50;
+			grid = grid + 50;
 		}
 		
 		/**
