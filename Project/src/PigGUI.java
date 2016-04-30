@@ -102,7 +102,7 @@ public class PigGUI extends JFrame {
 		
 	   setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		boolean stop = false;
+		boolean stop = false;		//Unused as of now
 		Rules = new JButton("Rules");
 		Rules.setBounds(50, 150, 100, 30);
 		Rules.setToolTipText("Rules of the Game");
@@ -185,8 +185,6 @@ public class PigGUI extends JFrame {
 				}
 			});
 		
-		
-		
 		Host = new JButton("Host");
 		Host.setBounds(250, 400, 100, 30);
 		Host.setToolTipText("Host Game");
@@ -212,8 +210,6 @@ public class PigGUI extends JFrame {
 			}
 		});
 		
-		
-		
 		panel.add(Host);
 		panel.add(Join);
 		panel.add(Stats);
@@ -227,7 +223,6 @@ public class PigGUI extends JFrame {
 	
 	private void lobby(boolean isHost){
 		
-
 		panel.removeAll();
 		getContentPane().removeAll();		
 		playerButtons = new JPanel(new GridLayout(0, 1));
@@ -244,20 +239,19 @@ public class PigGUI extends JFrame {
 		startButton.setToolTipText("Lets Begin Game");
 		startButton.setBackground(Color.WHITE);
 		startButton.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent event) {
-			   ((PigServer) IO).startGame();
+			public void actionPerformed(ActionEvent event) {
+				((PigServer) IO).startGame();
 				}
-				});
+			});
 				
 		leave = new JButton("Leave");
 		leave.setBounds(400, 400, 100, 30);
 		leave.setToolTipText("Leave Game");
 		leave.setBackground(Color.WHITE);
 		leave.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent event) {
+			public void actionPerformed(ActionEvent event) {
 				if(textArea!= null){
 					remove(textArea);
-					
 					panel.revalidate();
 					validate();
 					repaint();
