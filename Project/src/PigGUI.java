@@ -513,7 +513,7 @@ public class PigGUI extends JFrame {
 	}
 	
 	/**
-	 * 
+	 * main executable
 	 * @param args
 	 */
 	public static void main(String[] args) {
