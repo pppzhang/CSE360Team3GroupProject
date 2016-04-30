@@ -45,11 +45,12 @@ public class PigStatsTest {
 		try {
 			FileOutputStream saveFile = new FileOutputStream("John.passthepig.sav");	//username=John
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
-			save.writeObject(10); //total score
-			save.writeObject(3.2);//average score
-			save.writeObject(3); //number of games played
+			save.writeObject(10); 	//total score
+			save.writeObject(3.2);	//average score
+			save.writeObject(3); 	//number of games played
 			save.writeObject(1);	//number of games won
-			save.writeObject(1); 	// number of ones rolled			
+			save.writeObject(1); 	//number of ones rolled	
+			save.close();			//closes ObjOutStream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,11 +79,12 @@ public class PigStatsTest {
 		try {
 			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
-			save.writeObject(0); //total score
-			save.writeObject(0.0);//average score
-			save.writeObject(0); //number of games played
+			save.writeObject(0); 	//total score
+			save.writeObject(0.0);	//average score
+			save.writeObject(0); 	//number of games played
 			save.writeObject(0);	//number of games won
-			save.writeObject(0); 	// number of ones rolled			
+			save.writeObject(0); 	//number of ones rolled
+			save.close();			//closes ObjOutStream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,11 +138,12 @@ public class PigStatsTest {
 		try {
 			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
-			save.writeObject(0); //total score
-			save.writeObject(0.0);//average score
-			save.writeObject(0); //number of games played
+			save.writeObject(0); 	//total score
+			save.writeObject(0.0);	//average score
+			save.writeObject(0); 	//number of games played
 			save.writeObject(0);	//number of games won
-			save.writeObject(0); 	// number of ones rolled			
+			save.writeObject(0); 	//number of ones rolled
+			save.close();			//closes ObjOutStream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,11 +179,12 @@ public class PigStatsTest {
 		try {
 			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
-			save.writeObject(0); //total score
-			save.writeObject(0.0);//average score
-			save.writeObject(0); //number of games played
+			save.writeObject(0); 	//total score
+			save.writeObject(0.0);	//average score
+			save.writeObject(0); 	//number of games played
 			save.writeObject(0);	//number of games won
-			save.writeObject(0); 	// number of ones rolled			
+			save.writeObject(0); 	//number of ones rolled
+			save.close();			//closes ObjOutStream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -216,11 +220,12 @@ public class PigStatsTest {
 		try {
 			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
-			save.writeObject(0); //total score
-			save.writeObject(0.0);//average score
-			save.writeObject(0); //number of games played
+			save.writeObject(0); 	//total score
+			save.writeObject(0.0);	//average score
+			save.writeObject(0); 	//number of games played
 			save.writeObject(0);	//number of games won
-			save.writeObject(0); 	// number of ones rolled			
+			save.writeObject(0); 	//number of ones rolled
+			save.close();			//closes ObjOutStream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -256,11 +261,12 @@ public class PigStatsTest {
 		try {
 			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
-			save.writeObject(0); //total score
-			save.writeObject(0.0);//average score
-			save.writeObject(0); //number of games played
+			save.writeObject(0); 	//total score
+			save.writeObject(0.0);	//average score
+			save.writeObject(0); 	//number of games played
 			save.writeObject(0);	//number of games won
-			save.writeObject(0); 	// number of ones rolled			
+			save.writeObject(0); 	//number of ones rolled
+			save.close();			//closes ObjOutStream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -296,11 +302,12 @@ public class PigStatsTest {
 		try {
 			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
-			save.writeObject(0); //total score
-			save.writeObject(0.0);//average score
-			save.writeObject(0); //number of games played
+			save.writeObject(0); 	//total score
+			save.writeObject(0.0);	//average score
+			save.writeObject(0); 	//number of games played
 			save.writeObject(0);	//number of games won
-			save.writeObject(0); 	// number of ones rolled			
+			save.writeObject(0); 	//number of ones rolled
+			save.close();			//closes ObjOutStream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -336,11 +343,12 @@ public class PigStatsTest {
 		try {
 			FileOutputStream saveFile = new FileOutputStream("Tom.passthepig.sav");	//username=Tom
 			ObjectOutputStream save = new ObjectOutputStream(saveFile);
-			save.writeObject(0); //total score
-			save.writeObject(0.0);//average score
-			save.writeObject(0); //number of games played
+			save.writeObject(0); 	//total score
+			save.writeObject(0.0);	//average score
+			save.writeObject(0); 	//number of games played
 			save.writeObject(0);	//number of games won
-			save.writeObject(0); 	// number of ones rolled			
+			save.writeObject(0); 	//number of ones rolled
+			save.close();			//closes ObjOutStream
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
