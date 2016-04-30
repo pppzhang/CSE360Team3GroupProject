@@ -231,7 +231,7 @@ public class PigGUI extends JFrame {
 		
 		nameText = new JLabel("Players In Lobby: ");
 		nameText.setHorizontalAlignment(JTextField.CENTER);
-		nameText .setBounds(25,25, 150, 75);
+		nameText.setBounds(25,25, 200, 75);
 		nameText.setForeground(Color.WHITE);
 
 		nameText.setFont(new Font("SansSerif",Font.BOLD, 15));
