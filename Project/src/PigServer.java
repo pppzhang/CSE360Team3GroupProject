@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -80,6 +81,7 @@ public class PigServer implements PigIO {
 			running = true;
 			try {
 				server = new ServerSocket(PORT);
+				gui.setIP(InetAddress.getLocalHost().getHostAddress());
 				server.setSoTimeout(10000);
 			} catch (Exception e) {
 				e.printStackTrace();

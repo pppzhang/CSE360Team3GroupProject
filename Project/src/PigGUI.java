@@ -39,6 +39,7 @@ public class PigGUI extends JFrame {
 	JButton leave;
 	JButton pass;
 	JButton rollAgain;
+	JLabel dieLabel;	// declare dice image label, revise if needed - Peng
 	
 	PigIO IO;
 	PigGUI gui;
@@ -222,9 +223,7 @@ public class PigGUI extends JFrame {
 		panel.add(Stats);
 		panel.add(Rules);
 
-		panel.revalidate();
-		validate();
-		repaint();
+		refresh();
 		//pack();
 		//setVisible(true);
 		//
@@ -270,16 +269,23 @@ public class PigGUI extends JFrame {
 				IO.exit();
 			}
 		});
-						
+					
 		panel.add(nameText);
 		if (isHost)
 			panel.add(startButton);
 		panel.add(leave);
 		getContentPane().add(panel);
-		panel.revalidate();
-		validate();
-		repaint();
+		refresh();
 				
+	}
+	
+	void setIP(String ip) {
+		JTextField ipField = new JTextField(ip);
+		ipField.setHorizontalAlignment(JTextField.CENTER);
+		ipField .setBounds(25, 10, 150, 20);
+		ipField.setEditable(false);
+		panel.add(ipField);
+		refresh();
 	}
 	
 	/**
@@ -361,9 +367,7 @@ public class PigGUI extends JFrame {
 	public void disconnect() {
 		panel.removeAll();
 		getContentPane().removeAll();
-		
-		validate();
-		repaint();
+		refresh();
 		IO = null;
 		mainn();
 	}
@@ -401,11 +405,16 @@ public class PigGUI extends JFrame {
 		rollAgain.setEnabled(false);
 		pass.setEnabled(false);
 		
+		// the three lines below add die image to panel, revise it if needed - Peng
+		dieLabel = new JLabel("");
+		dieLabel.setIcon(new ImageIcon("img/1.png"));
+		dieLabel.setBounds(300, 100, 220, 220);
+		
+		
 		panel.add(pass);
 		panel.add(rollAgain);
-		panel.revalidate();
-		validate();
-		repaint();
+		panel.add(dieLabel);	// add to panel - Peng
+		refresh();
 		//TODO remove namecards and re-add in this order
 	}
 	
@@ -428,6 +437,10 @@ public class PigGUI extends JFrame {
 	 * @param newValue value of the rolled die
 	 */
 	public void roll(int newValue){
+		// the two lines below change die image based on roll result, revise it if needed - Peng
+		dieLabel.setIcon(new ImageIcon("img/"+newValue+".png"));
+		panel.repaint();
+		
 		if (newValue == 1) {
 			playerList.get(myPlayerID).score = 0;
 		} else {
@@ -437,7 +450,6 @@ public class PigGUI extends JFrame {
 		}
 		playerList.get(myPlayerID).myRolls.add(newValue);
 		playerList.get(myPlayerID).repaint();
-		//TODO add die face to yourself. ENABLE pass/roll buttons. DISABLE them when they are clicked.
 	}
 	
 	/**
