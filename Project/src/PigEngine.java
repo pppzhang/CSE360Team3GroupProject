@@ -2,12 +2,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * PigEngine handles calculations within the game for each player, and organizes player IDs
- * author : Priyanka Pakhale , Nathan Sears
- */
-
 public class PigEngine extends Thread {
+	/**
+	 * author : Priyanka Pakhale , Nathan Sears
+	 */
 	
 	private PigServer server;
 	private int numPlayers;
@@ -30,6 +28,7 @@ public class PigEngine extends Thread {
 		playerIDs = new int[numPlayers];
 	}
 	
+
 	/** 
 	 * Creates random order of player IDs
 	 */
