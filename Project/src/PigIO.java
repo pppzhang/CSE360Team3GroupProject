@@ -1,7 +1,7 @@
 import java.io.Serializable;
 
 /**
- * PigIO handles input and output between players
+ * PigIO handles input and output commands between players
  * @author Nathan Sears
  */
 
