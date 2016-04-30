@@ -52,8 +52,7 @@ public class PigGUI extends JFrame {
 	JScrollPane scroll;
 	JLabel imageL;
 	private int toggle1;
-	ArrayList<Player>playerList;
-	//// this to line up user buttons. used in play class
+	ArrayList<Player>playerList;	// Lines up user buttons; used in play class
 	public int grid;
 	
 	/**
@@ -70,14 +69,11 @@ public class PigGUI extends JFrame {
 		getContentPane().setBackground( Color.black );
 		mainn();
 		
-		
-			
-		
 	}
-	/**\
-	 * this i the first jframe that will display rule button,statbutton,host and join buttons
-	 */
 	
+	/**
+	 * The first JFrame that will display rule, stat, host and join buttons
+	 */
 	private void mainn(){
 		//scroll for rule , stats, or userstats
 		/*if(panel !=null){
@@ -108,11 +104,6 @@ public class PigGUI extends JFrame {
 	  // setLocationRelativeTo(null);
 		
 	   setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		
-		
-		
-		
 		
 		boolean stop = false;
 		Rules = new JButton("Rules");
@@ -155,7 +146,6 @@ public class PigGUI extends JFrame {
 				//panel.add(scrollPane);
 				//pack();
 				
-				
 				}
 			});
 	
@@ -174,6 +164,7 @@ public class PigGUI extends JFrame {
 						validate();
 						repaint();
 					}
+					
 					textArea=statText(statToString(pigStats));
 					scroll=new JScrollPane(textArea);
 					//scroll.setBounds(250, 125, 250, 150);// center
@@ -292,7 +283,7 @@ public class PigGUI extends JFrame {
 	}
 	
 	/**
-	 * Returns strings of rules 
+	 * Returns strings of game rules 
 	 * @return string
 	 */
 	public static String rules(){
@@ -305,6 +296,7 @@ public class PigGUI extends JFrame {
 	
 		return rules;
 	}
+	
 	/**
 	 * This will return a JTextArea object with defined attributes 
 	 * @param stats
@@ -322,6 +314,7 @@ public class PigGUI extends JFrame {
 		statArea.setBorder(BorderFactory.createLineBorder(Color.red));
 		return statArea;
 	}
+	
 	/**
 	 * Will create a formatted string of stats and then return that string. 
 	 * @param stats
@@ -339,6 +332,7 @@ public class PigGUI extends JFrame {
 		
 		return string;
 	}
+	
 	/**
 	 * will create JtextArea object will return set text and aligned object 
 	 * @return
@@ -360,6 +354,7 @@ public class PigGUI extends JFrame {
 		return ruleArea;
 	
 	}
+	
 	/**
 	 * This will call mainn() to loop back to first screen
 	 */
@@ -373,6 +368,10 @@ public class PigGUI extends JFrame {
 		mainn();
 	}
 	
+	/**
+	 * Assembles the GUI at the start of a game
+	 * @param playerIDs array of unique player IDs
+	 */
 	public void setOrder(int [] playerIDs){
 		playState = true;
 		if (IO instanceof PigServer)
@@ -409,9 +408,10 @@ public class PigGUI extends JFrame {
 		repaint();
 		//TODO remove namecards and re-add in this order
 	}
+	
 	/**
-	 * 
-	 * @param oldValue
+	 * Updates current player's score when the player rolls again
+	 * @param oldValue player's score to be update
 	 */
 	public void rollOther (int playerID, int oldValue){
 		playerList.get(playerID).score += oldValue;
@@ -422,9 +422,10 @@ public class PigGUI extends JFrame {
 		playerList.get(playerID).myRolls.add(0);
 		playerList.get(playerID).repaint();
 	}
+	
 	/**
-	 * 
-	 * @param newValue
+	 * Initial die rolls, opens "Roll Again" and "Pass" options
+	 * @param newValue value of the rolled die
 	 */
 	public void roll(int newValue){
 		if (newValue == 1) {
@@ -438,8 +439,9 @@ public class PigGUI extends JFrame {
 		playerList.get(myPlayerID).repaint();
 		//TODO add die face to yourself. ENABLE pass/roll buttons. DISABLE them when they are clicked.
 	}
+	
 	/**
-	 * This will add a new player object to arraylist<player . then add last add
+	 * This will add a new player object to arraylist<player>, add last, then add
 	 * player object to lobby 
 	 * @param stats
 	 */
@@ -452,11 +454,11 @@ public class PigGUI extends JFrame {
 		validate();
 		repaint();
 		
-		
 	}
+	
 	/**
-	 * If another player leaves 
-	 * @param playerID
+	 * If another player leaves this removes them from the game
+	 * @param playerID unique player identifier
 	 */
 	public void leave(int playerID){
 		if (playState) return;
@@ -473,8 +475,9 @@ public class PigGUI extends JFrame {
 		validate();
 		repaint();
 	}
+	
 	/**
-	 * 
+	 * If a player has won, announces winner, otherwise begins the next player's turn
 	 * @param playerID
 	 */
 	public void setTurn(int playerID){
@@ -491,9 +494,10 @@ public class PigGUI extends JFrame {
 			nameText.setText("It is " + playerList.get(playerID).statistics.getUserName() + "'s turn.");
 		}
 	}
+	
 	/**
-	 * 
-	 * @param lastValues
+	 * Shows all players rolls with exception to the most recent roll in accordance with the game rules
+	 * @param lastValues previous die roll values
 	 */
 	public void reveal(int [] lastValues){
 		for (int i = 0; i < lastValues.length; i++) {
@@ -505,6 +509,7 @@ public class PigGUI extends JFrame {
 			}
 		}
 	}
+	
 	/**
 	 * 
 	 * @param args
@@ -526,8 +531,8 @@ public class PigGUI extends JFrame {
 		validate();
 		repaint();
 	}
+	
 	/**
-	 * 
 	 * @author Phillip Reyes
 	 * This class is used to have a list of buttons of player class.
 	 *  will have stats and buttton with action listener
@@ -554,7 +559,7 @@ public class PigGUI extends JFrame {
 			button.addActionListener(new ActionListener() {
 				
 				public void actionPerformed(ActionEvent event) {
-					//TODO disply stats
+					//TODO display stats
 					if (toggle1 % 2 == 0){
 						//ruleText();
 						if(textArea!= null){
@@ -586,8 +591,9 @@ public class PigGUI extends JFrame {
 				});
 			grid=grid+50;
 		}
+		
 		/**
-		 *  This will display the stats via aformmatted string
+		 * This will display the stats via a formatted string
 		 * @param stats
 		 * @return
 		 */
